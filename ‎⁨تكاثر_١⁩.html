@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Study Smart</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧬</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F5F7F2;
+  --bg-panel:#FFFFFF;
+  --ink:#1B211D;
+  --ink-soft:#4B564E;
+  --ink-faint:#8B948A;
+  --line:#DCE3D8;
+  --forest:#1F4B43;
+  --forest-deep:#123832;
+  --coral:#C1666B;
+  --coral-deep:#A24E53;
+  --gold:#C99A3B;
+  --sage-tint:#EAF0E6;
+  --coral-tint:#F7E9EA;
+  --gold-tint:#F6EEDA;
+  --radius-s:6px;
+  --radius-m:12px;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --shadow: 0 1px 2px rgba(18,56,50,0.06), 0 6px 20px -8px rgba(18,56,50,0.18);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+html,body{height:100%;}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(31,75,67,0.06) 1px, transparent 0);
+  background-size:26px 26px;
+  pointer-events:none;
+  z-index:0;
+}
+::selection{background:var(--gold-tint);color:var(--forest-deep);}
+a{color:inherit;}
+button{font-family:inherit;}
+:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px;}
+
+.app{position:relative;z-index:1;min-height:100%;display:flex;flex-direction:column;}
+
+/* ---------- HEADER ---------- */
+.hero{
+  padding:env(safe-area-inset-top,0px) 20px 0;
+  background:linear-gradient(180deg, var(--forest-deep) 0%, var(--forest) 100%);
+  color:#F3F6EF;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
+  background:radial-gradient(circle, rgba(201,154,59,0.25), transparent 70%);
+  pointer-events:none;
+}
+.hero-inner{max-width:1080px;margin:0 auto;padding:22px 0 18px;position:relative;}
+.hero-eyebrow-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.brandmark{display:flex;align-items:center;gap:10px;}
+.brandmark svg{width:30px;height:30px;flex:none;}
+.brand-name{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:0.2px;}
+.brand-name em{font-style:normal;color:var(--gold);}
+.hero-tag{font-size:0.82rem;color:#C7D6C4;max-width:320px;text-align:right;}
+.hero-sub{margin-top:10px;font-size:0.95rem;color:#DDE7D8;max-width:640px;}
+
+/* ---------- NAV ---------- */
+.tabbar{
+  display:flex;gap:4px;
+  max-width:1080px;margin:18px auto 0;
+  padding:0 0 0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabbar::-webkit-scrollbar{display:none;}
+.tab-btn{
+  flex:none;
+  display:flex;align-items:center;gap:8px;
+  padding:11px 16px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-bottom:none;
+  color:#DDE7D8;
+  border-radius:10px 10px 0 0;
+  cursor:pointer;
+  font-size:0.88rem;
+  font-weight:600;
+  white-space:nowrap;
+  transition:background .15s ease, color .15s ease;
+}
+.tab-btn svg{width:16px;height:16px;opacity:.85;}
+.tab-btn.active{
+  background:var(--bg);
+  color:var(--forest-deep);
+  border-color:var(--bg);
+}
+.tab-btn:not(.active):hover{background:rgba(255,255,255,0.13);color:#fff;}
+.tab-num{
+  font-family:var(--serif);
+  font-size:0.72rem;
+  opacity:.6;
+}
+
+/* ---------- MAIN ---------- */
+main{max-width:1080px;width:100%;margin:0 auto;padding:26px 20px 60px;flex:1;}
+.panel{display:none;animation:fade .35s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion: reduce){.panel{animation:none;}}
+
+.section-head{margin-bottom:20px;}
+.section-head h2{
+  font-family:var(--serif);
+  font-size:1.7rem;
+  margin:0 0 4px;
+  color:var(--forest-deep);
+  font-weight:600;
+}
+.section-head p{margin:0;color:var(--ink-soft);font-size:0.94rem;max-width:620px;}
+
+/* ---------- OVERVIEW ---------- */
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+.ov-card{
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:16px 18px;
+  box-shadow:var(--shadow);
+}
+.ov-card h3{
+  font-family:var(--serif);
+  font-size:1.02rem;
+  margin:0 0 10px;
+  color:var(--forest);
+  display:flex;align-items:center;gap:8px;
+}
+.ov-card h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--coral);flex:none;}
+.ov-card ul{margin:0;padding-left:18px;}
+.ov-card li{margin-bottom:7px;font-size:0.89rem;color:var(--ink);}
+.ov-card li:last-child{margin-bottom:0;}
+.ov-card li b{color:var(--forest-deep);}
+
+/* ---------- TOPICS / GLOSSARY ---------- */
+.tp-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.tp-search{
+  flex:1;min-width:180px;padding:10px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--bg-panel);color:var(--ink);font-size:0.9rem;
+}
+.tp-count{font-size:0.82rem;color:var(--ink-faint);white-space:nowrap;}
+.tp-cat-group{margin-bottom:22px;}
+.tp-cat-title{
+  font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--coral-deep);
+  margin:0 0 10px;padding-bottom:6px;border-bottom:1px dashed var(--line);
+}
+.tp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+.tp-item{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius-s);
+  padding:12px 14px;box-shadow:var(--shadow);
+}
+.tp-term{font-family:var(--serif);font-weight:600;color:var(--forest-deep);font-size:0.96rem;margin-bottom:4px;}
+.tp-def{font-size:0.85rem;color:var(--ink-soft);}
+.tp-empty{color:var(--ink-faint);font-style:italic;font-size:0.9rem;padding:20px 0;}
+
+/* ---------- HIGH YIELD ---------- */
+.hy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+.hy-card{
+  background:var(--bg-panel);border:1px solid var(--line);border-left:4px solid var(--coral);
+  border-radius:var(--radius-m);padding:15px 17px;box-shadow:var(--shadow);
+}
+.hy-card h3{font-family:var(--serif);font-size:0.98rem;margin:0 0 9px;color:var(--coral-deep);}
+.hy-card ul{margin:0;padding-left:18px;}
+.hy-card li{margin-bottom:6px;font-size:0.88rem;color:var(--ink);}
+.hy-card li:last-child{margin-bottom:0;}
+.hy-card li b{color:var(--forest-deep);}
+.hy-num{
+  display:inline-block;background:var(--gold-tint);color:#8A6A1F;font-weight:700;
+  padding:1px 7px;border-radius:6px;font-size:0.83rem;
+}
+.hy-trap{
+  background:var(--coral-tint);border:1px solid var(--coral);border-radius:var(--radius-m);
+  padding:16px 18px;box-shadow:var(--shadow);margin-top:18px;
+}
+.hy-trap h3{font-family:var(--serif);margin:0 0 10px;color:var(--coral-deep);font-size:1rem;}
+.hy-trap ul{margin:0;padding-left:18px;}
+.hy-trap li{margin-bottom:8px;font-size:0.89rem;color:var(--ink);}
+.hy-trap li:last-child{margin-bottom:0;}
+
+/* ---------- DIAGRAMS ---------- */
+.diag-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.diag-tab{
+  padding:8px 14px;border-radius:999px;border:1px solid var(--line);
+  background:var(--bg-panel);color:var(--ink-soft);font-size:0.83rem;font-weight:600;cursor:pointer;
+}
+.diag-tab.active{background:var(--forest);color:#fff;border-color:var(--forest);}
+.diag-stage{display:none;}
+.diag-stage.active{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;}
+@media (max-width:760px){.diag-stage.active{grid-template-columns:1fr;}}
+.diag-canvas{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:14px;box-shadow:var(--shadow);overflow:auto;
+}
+.diag-canvas svg{width:100%;height:auto;display:block;}
+.diag-node{cursor:pointer;transition:opacity .15s;}
+.diag-node:hover rect,.diag-node:hover circle{stroke-width:2.4;}
+.diag-node.selected rect,.diag-node.selected circle{stroke:var(--coral-deep);stroke-width:3;}
+.diag-info{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:18px;box-shadow:var(--shadow);min-height:180px;
+}
+.diag-info h4{margin:0 0 8px;font-family:var(--serif);color:var(--forest-deep);font-size:1.05rem;}
+.diag-info p{margin:0;font-size:0.9rem;color:var(--ink-soft);}
+.diag-info .hint{color:var(--ink-faint);font-style:italic;font-size:0.85rem;}
+
+/* ---------- MINI MAP ---------- */
+.map-wrap{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:22px;box-shadow:var(--shadow);
+}
+.map-nodes{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.map-node{
+  padding:10px 16px;border-radius:999px;
+  border:1.5px solid var(--forest);
+  background:var(--sage-tint);
+  color:var(--forest-deep);
+  font-weight:600;font-size:0.87rem;
+  cursor:pointer;
+  transition:transform .12s ease, background .15s ease;
+}
+.map-node:hover{transform:translateY(-2px);}
+.map-node.active{background:var(--forest);color:#fff;}
+.map-reveal{
+  border-top:2px dashed var(--line);
+  padding-top:16px;
+  min-height:110px;
+}
+.map-reveal h4{margin:0 0 8px;font-family:var(--serif);font-size:1.15rem;color:var(--coral-deep);}
+.map-reveal p{margin:0;color:var(--ink);font-size:0.93rem;max-width:680px;}
+.map-reveal .placeholder{color:var(--ink-faint);font-style:italic;}
+
+/* ---------- FLASHCARDS ---------- */
+.fc-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;}
+.fc-select, .qz-select{
+  padding:8px 12px;border-radius:var(--radius-s);border:1px solid var(--line);
+  background:var(--bg-panel);color:var(--ink);font-size:0.85rem;font-weight:600;
+}
+.fc-count{margin-left:auto;font-size:0.82rem;color:var(--ink-faint);}
+.fc-stage{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.fc-card{
+  width:100%;max-width:560px;height:250px;
+  perspective:1200px;cursor:pointer;
+}
+.fc-card-inner{
+  position:relative;width:100%;height:100%;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;
+}
+.fc-card.flipped .fc-card-inner{transform:rotateY(180deg);}
+.fc-face{
+  position:absolute;inset:0;backface-visibility:hidden;
+  border-radius:var(--radius-m);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:28px;text-align:center;box-shadow:var(--shadow);
+  border:1px solid var(--line);
+}
+.fc-front{background:var(--bg-panel);}
+.fc-back{background:var(--forest);color:#F3F6EF;transform:rotateY(180deg);border-color:var(--forest);}
+.fc-tag{
+  position:absolute;top:14px;left:14px;font-size:0.7rem;font-weight:700;
+  text-transform:none;letter-spacing:0.2px;
+  padding:4px 10px;border-radius:999px;
+  background:var(--coral-tint);color:var(--coral-deep);
+}
+.fc-back .fc-tag{background:rgba(255,255,255,0.14);color:#F3F6EF;}
+.fc-text{font-family:var(--serif);font-size:1.12rem;line-height:1.4;color:var(--ink);}
+.fc-back .fc-text{color:#fff;font-family:var(--sans);font-size:1rem;font-weight:400;}
+.fc-hint{position:absolute;bottom:12px;font-size:0.72rem;color:var(--ink-faint);}
+.fc-back .fc-hint{color:rgba(255,255,255,0.6);}
+.fc-controls{display:flex;gap:10px;align-items:center;}
+.fc-btn{
+  border:1px solid var(--line);background:var(--bg-panel);color:var(--forest-deep);
+  padding:10px 16px;border-radius:999px;font-weight:700;font-size:0.85rem;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+}
+.fc-btn:hover{background:var(--sage-tint);}
+.fc-btn.primary{background:var(--forest);color:#fff;border-color:var(--forest);}
+.fc-btn.primary:hover{background:var(--forest-deep);}
+.fc-progress{font-size:0.82rem;color:var(--ink-faint);font-weight:600;}
+.fc-grid-toggle{margin-left:6px;}
+.fc-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:6px;}
+.fc-grid.active{display:grid;}
+.fc-mini{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius-s);
+  padding:12px;font-size:0.82rem;cursor:pointer;min-height:88px;
+}
+.fc-mini .fc-mini-tag{font-size:0.66rem;font-weight:700;color:var(--coral-deep);margin-bottom:6px;display:block;}
+.fc-mini .fc-mini-body{color:var(--ink-faint);}
+.fc-mini.open .fc-mini-body{color:var(--ink);}
+
+/* ---------- QUIZ ---------- */
+.qz-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+.qz-score{margin-left:auto;font-size:0.85rem;font-weight:700;color:var(--forest-deep);}
+.qz-panel{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:22px;box-shadow:var(--shadow);
+}
+.qz-progress-bar{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:18px;}
+.qz-progress-fill{height:100%;background:var(--coral);width:0%;transition:width .3s ease;}
+.qz-qtag{font-size:0.72rem;font-weight:700;color:var(--coral-deep);text-transform:none;margin-bottom:8px;display:block;}
+.qz-question{font-family:var(--serif);font-size:1.18rem;margin:0 0 18px;color:var(--forest-deep);line-height:1.4;}
+.qz-options{display:flex;flex-direction:column;gap:10px;}
+.qz-opt{
+  text-align:left;padding:13px 16px;border-radius:var(--radius-s);
+  border:1.5px solid var(--line);background:var(--bg);
+  font-size:0.92rem;cursor:pointer;color:var(--ink);
+  display:flex;gap:10px;align-items:flex-start;
+}
+.qz-opt:hover{border-color:var(--forest);}
+.qz-opt .letter{
+  flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink-faint);
+  display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:var(--ink-faint);
+}
+.qz-opt.correct{border-color:var(--forest);background:var(--sage-tint);}
+.qz-opt.correct .letter{background:var(--forest);border-color:var(--forest);color:#fff;}
+.qz-opt.wrong{border-color:var(--coral-deep);background:var(--coral-tint);}
+.qz-opt.wrong .letter{background:var(--coral-deep);border-color:var(--coral-deep);color:#fff;}
+.qz-opt[disabled]{cursor:default;}
+.qz-footer{display:flex;justify-content:space-between;align-items:center;margin-top:20px;}
+.qz-feedback{font-size:0.85rem;font-weight:700;min-height:20px;}
+.qz-feedback.ok{color:var(--forest);}
+.qz-feedback.no{color:var(--coral-deep);}
+.qz-done{text-align:center;padding:30px 10px;}
+.qz-done h3{font-family:var(--serif);font-size:1.6rem;color:var(--forest-deep);margin:0 0 6px;}
+.qz-done p{color:var(--ink-soft);margin:0 0 18px;}
+
+/* ---------- FOOTER ---------- */
+footer{
+  border-top:1px solid var(--line);
+  padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));
+  text-align:center;
+  font-size:0.78rem;
+  color:var(--ink-faint);
+}
+footer b{color:var(--forest-deep);}
+
+.copybar{
+  position:relative;z-index:2;
+  background:var(--forest-deep);
+  color:#C7D6C4;
+  font-size:0.76rem;
+  text-align:center;
+  padding:8px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.copybar a,.credit-links a{text-decoration:none;font-weight:600;}
+.copybar a{color:var(--gold);}
+.copybar a:hover{text-decoration:underline;}
+.credit-links{margin-top:4px;}
+.credit-links a{color:var(--forest-deep);}
+.credit-links a:hover{text-decoration:underline;}
+.sep{opacity:.5;margin:0 2px;}
+.nw{white-space:nowrap;}
+
+/* scroll containers for wide tables/diagrams */
+.scrollx{overflow-x:auto;}
+
+@media (max-width:600px){
+  .brand-name{font-size:1.25rem;}
+  .hero-tag{display:none;}
+  .section-head h2{font-size:1.4rem;}
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="copybar"><span class="nw">© Anmar Taha — All rights reserved.</span> <span class="sep">|</span> <span class="nw">Telegram: <a href="https://t.me/AnmarTaha" target="_blank" rel="noopener">@AnmarTaha</a></span> <span class="sep">|</span> <span class="nw">Instagram: <a href="https://instagram.com/a.za18" target="_blank" rel="noopener">a.za18</a></span></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow-row">
+      <div class="brandmark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2c0 4-3 5-3 9s3 5 3 9M12 2c0 4 3 5 3 9s-3 5-3 9M5 5c3 2 3 4 3 7s0 5-3 7M19 5c-3 2-3 4-3 7s0 5 3 7" stroke="#C99A3B" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="brand-name">Study <em>Smart</em></span>
+      </div>
+      <div class="hero-tag">Human Reproduction &amp; Endocrinology — a focused review companion</div>
+    </div>
+    <p class="hero-sub">Seven tools, one chapter: the laws worth remembering, the pathways worth tracing, the terms worth knowing cold, and enough practice to make them stick.</p>
+  </div>
+  <nav class="tabbar">
+    <button class="tab-btn active" data-tab="overview"><span class="tab-num">01</span> Overview</button>
+    <button class="tab-btn" data-tab="diagrams"><span class="tab-num">02</span> Diagrams</button>
+    <button class="tab-btn" data-tab="mindmap"><span class="tab-num">03</span> Mini Map</button>
+    <button class="tab-btn" data-tab="cards"><span class="tab-num">04</span> Flash Cards</button>
+    <button class="tab-btn" data-tab="quiz"><span class="tab-num">05</span> Quiz Bank</button>
+    <button class="tab-btn" data-tab="topics"><span class="tab-num">06</span> Topics</button>
+    <button class="tab-btn" data-tab="highyield"><span class="tab-num">07</span> High Yield</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ 1. OVERVIEW ============ -->
+  <section class="panel active" id="panel-overview">
+    <div class="section-head">
+      <h2>The essentials</h2>
+      <p>Not the lecture — just the rules, definitions, and numbers worth knowing cold.</p>
+    </div>
+    <div class="ov-grid">
+      <div class="ov-card"><h3><span class="dot"></span>Core definitions</h3><ul>
+        <li><b>Reproduction:</b> sperm + ovum develop, grow, unite → unique offspring.</li>
+        <li><b>Zygote → embryo → fetus</b>, inside the uterus.</li>
+        <li><b>Gonads:</b> testes (male) / ovaries (female) — produce gametes.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Sex determination</h3><ul>
+        <li>Fixed at <b>fertilization</b>, by the sex chromosomes.</li>
+        <li><b>Male = XY, Female = XX.</b> Y is the smaller chromosome.</li>
+        <li>Y present → testes. Y absent → ovaries.</li>
+        <li>Male genitalia need a <b>functional, secreting testis</b>; default (no testis) = female.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Gonad differentiation</h3><ul>
+        <li>Both gonads start as the <b>urogenital ridge</b>, undifferentiated to week 6.</li>
+        <li><b>SRY gene</b> (on Y) triggers testis formation in week 7.</li>
+        <li>No SRY → ovary forms in the same site.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Duct system rule</h3><ul>
+        <li>Two ducts present in every fetus: <b>Wolffian</b> &amp; <b>Müllerian</b>.</li>
+        <li>Male: Wolffian persists, Müllerian regresses.</li>
+        <li>Female: Müllerian persists, Wolffian regresses.</li>
+        <li>External genitalia come from separate tissue, not either duct.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Hormonal switches</h3><ul>
+        <li>Fetal testis secretes <b>testosterone</b> + <b>AMH</b> (Sertoli/Leydig cells).</li>
+        <li>AMH → Müllerian ducts regress.</li>
+        <li>Testosterone → Wolffian ducts mature.</li>
+        <li><b>DHT</b> (from testosterone) → penis + scrotum.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Hormones, general</h3><ul>
+        <li>Gonads: gametogenesis + sex hormone secretion.</li>
+        <li>Androgens = masculinizing; estrogens = feminizing — <b>both in both sexes.</b></li>
+        <li><b>FSH + LH</b> (pituitary) drive gonads; sex hormones + <b>inhibin B</b> feed back to suppress them.</li>
+        <li>Gonadotropins: noncyclic in men, cyclic in postpubertal women.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Puberty milestones</h3><ul>
+        <li>Girls: <b>8–13 yrs</b> · Boys: <b>9–14 yrs</b>.</li>
+        <li>Girls in order: <b>thelarche</b> (breasts) → <b>pubarche</b> (hair) → <b>menarche</b> (first period).</li>
+        <li>First cycles are usually anovulatory; ovulation regularizes ~1 yr later.</li>
+        <li><b>Adrenarche</b> (adrenal androgen rise): girls 8–10, boys 10–12.</li>
+      </ul></div>
+      <div class="ov-card"><h3><span class="dot"></span>Menopause</h3><ul>
+        <li>Cause: ovaries stop responding to gonadotropins as <b>primordial follicles</b> decline.</li>
+        <li><b>Perimenopause:</b> 45–55 yrs, up to 10 yrs, FSH rises before LH.</li>
+        <li>Average onset: <b>52 yrs.</b></li>
+        <li>Hot flushes in ~<b>75%</b> of women, may persist up to 40 yrs.</li>
+        <li>"Male menopause" (andropause) is not clearly established.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ============ 2. DIAGRAMS ============ -->
+  <section class="panel" id="panel-diagrams">
+    <div class="section-head">
+      <h2>Trace the pathways</h2>
+      <p>Click any node in a diagram to read what it means. Nothing here is static.</p>
+    </div>
+    <div class="diag-tabs">
+      <button class="diag-tab active" data-diag="sexdiff">Sex differentiation</button>
+      <button class="diag-tab" data-diag="hpg">HPG feedback loop</button>
+      <button class="diag-tab" data-diag="gamete">Gametogenesis</button>
+      <button class="diag-tab" data-diag="testo">Testosterone timeline</button>
+    </div>
+
+    <div class="diag-stage active" id="diag-sexdiff">
+      <div class="diag-canvas scrollx"><div id="svgSexDiff"></div></div>
+      <div class="diag-info" id="infoSexDiff"></div>
+    </div>
+
+    <div class="diag-stage" id="diag-hpg">
+      <div class="diag-canvas scrollx">
+        <div class="diag-tabs" style="margin-bottom:10px;">
+          <button class="diag-tab active hpg-sex-btn" data-sex="female">Female loop</button>
+          <button class="diag-tab hpg-sex-btn" data-sex="male">Male loop</button>
+        </div>
+        <div id="svgHPG"></div>
+      </div>
+      <div class="diag-info" id="infoHPG"></div>
+    </div>
+
+    <div class="diag-stage" id="diag-gamete">
+      <div class="diag-canvas scrollx"><div id="svgGamete"></div></div>
+      <div class="diag-info" id="infoGamete"></div>
+    </div>
+
+    <div class="diag-stage" id="diag-testo">
+      <div class="diag-canvas scrollx"><div id="svgTesto"></div></div>
+      <div class="diag-info" id="infoTesto"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. MINI MAP ============ -->
+  <section class="panel" id="panel-mindmap">
+    <div class="section-head">
+      <h2>Mini map</h2>
+      <p>Click a topic — its summary opens right here, below the map.</p>
+    </div>
+    <div class="map-wrap">
+      <div class="map-nodes" id="mapNodes"></div>
+      <div class="map-reveal" id="mapReveal"><p class="placeholder">Select a topic above to see its summary.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 4. FLASH CARDS ============ -->
+  <section class="panel" id="panel-cards">
+    <div class="section-head">
+      <h2>Flash cards</h2>
+      <p>Pick a difficulty level, tap a card to flip it, filter by topic, shuffle, or browse the whole deck at once.</p>
+    </div>
+    <div class="fc-toolbar">
+      <select class="fc-select" id="fcLevel" aria-label="Difficulty level">
+        <option value="1">Level 1: Easy (60)</option>
+        <option value="2">Level 2: Medium (50)</option>
+        <option value="3">Level 3: Hard (40)</option>
+      </select>
+      <select class="fc-select" id="fcCategory"></select>
+      <span class="fc-count" id="fcCount"></span>
+      <button class="fc-btn fc-grid-toggle" id="fcGridToggle">Browse all</button>
+    </div>
+    <div class="fc-stage" id="fcStage">
+      <div class="fc-card" id="fcCard">
+        <div class="fc-card-inner">
+          <div class="fc-face fc-front">
+            <span class="fc-tag" id="fcFrontTag"></span>
+            <div class="fc-text" id="fcFrontText"></div>
+            <span class="fc-hint">tap to flip</span>
+          </div>
+          <div class="fc-face fc-back">
+            <span class="fc-tag" id="fcBackTag"></span>
+            <div class="fc-text" id="fcBackText"></div>
+            <span class="fc-hint">tap to flip back</span>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="fc-btn" id="fcPrev">‹ Prev</button>
+        <span class="fc-progress" id="fcProgress"></span>
+        <button class="fc-btn" id="fcNext">Next ›</button>
+      </div>
+      <button class="fc-btn primary" id="fcShuffle">Shuffle deck</button>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </section>
+
+  <!-- ============ 5. QUIZ BANK ============ -->
+  <section class="panel" id="panel-quiz">
+    <div class="section-head">
+      <h2>Quiz bank</h2>
+      <p>Pick a difficulty level. Answer choices are shuffled every question. Choose a topic or run the whole level.</p>
+    </div>
+    <div class="qz-toolbar">
+      <select class="qz-select" id="qzLevel" aria-label="Difficulty level">
+        <option value="1">Level 1: Easy (60)</option>
+        <option value="2">Level 2: Medium (50)</option>
+        <option value="3">Level 3: Hard (40)</option>
+      </select>
+      <select class="qz-select" id="qzCategory"></select>
+      <button class="fc-btn" id="qzRestart">Restart</button>
+      <span class="qz-score" id="qzScore"></span>
+    </div>
+    <div class="qz-panel">
+      <div class="qz-progress-bar"><div class="qz-progress-fill" id="qzFill"></div></div>
+      <div id="qzCard">
+        <span class="qz-qtag" id="qzTag"></span>
+        <h3 class="qz-question" id="qzQuestion"></h3>
+        <div class="qz-options" id="qzOptions"></div>
+        <div class="qz-footer">
+          <span class="qz-feedback" id="qzFeedback"></span>
+          <button class="fc-btn primary" id="qzNext" disabled>Next question ›</button>
+        </div>
+      </div>
+      <div class="qz-done" id="qzDone" style="display:none;">
+        <h3>Bank complete</h3>
+        <p>Final score: <span id="qzFinalScore"></span></p>
+        <button class="fc-btn primary" id="qzRestart2">Try again</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. TOPICS / GLOSSARY ============ -->
+  <section class="panel" id="panel-topics">
+    <div class="section-head">
+      <h2>Topics &amp; glossary</h2>
+      <p>Every key term from the chapter, grouped by theme. Search to jump straight to one.</p>
+    </div>
+    <div class="tp-toolbar">
+      <input class="tp-search" id="tpSearch" type="text" placeholder="Search a term… (e.g. SRY, DHT, menarche)"/>
+      <span class="tp-count" id="tpCount"></span>
+    </div>
+    <div id="tpResults"></div>
+  </section>
+
+  <!-- ============ 7. HIGH YIELD ============ -->
+  <section class="panel" id="panel-highyield">
+    <div class="section-head">
+      <h2>High yield</h2>
+      <p>The numbers, exceptions, and classic exam traps most likely to be tested.</p>
+    </div>
+    <div class="hy-grid">
+      <div class="hy-card"><h3>Numbers to memorize</h3><ul>
+        <li>Gonads undifferentiated until <span class="hy-num">wk 6</span>; SRY acts <span class="hy-num">wk 7</span>.</li>
+        <li>Duct differentiation: male <span class="hy-num">7–8 wk</span>, female <span class="hy-num">8–9 wk</span>.</li>
+        <li>Puberty: girls <span class="hy-num">8–13 yr</span>, boys <span class="hy-num">9–14 yr</span>.</li>
+        <li>Adrenarche: girls <span class="hy-num">8–10 yr</span>, boys <span class="hy-num">10–12 yr</span>.</li>
+        <li>DHEA peaks ~<span class="hy-num">age 25</span> in women, slightly later in men.</li>
+        <li>Perimenopause <span class="hy-num">45–55 yr</span> (up to 10 yr); average menopause onset <span class="hy-num">52 yr</span>.</li>
+        <li>Hot flushes in ~<span class="hy-num">75%</span> of menopausal women, up to <span class="hy-num">40 yr</span>.</li>
+      </ul></div>
+      <div class="hy-card"><h3>"Default pathway" logic</h3><ul>
+        <li>No SRY → <b>ovary</b> forms (default), not "nothing."</li>
+        <li>No AMH → Müllerian ducts <b>persist</b> (default).</li>
+        <li>No testosterone → Wolffian ducts <b>regress</b> (default).</li>
+        <li>No testosterone/DHT → external genitalia are <b>female</b> (default).</li>
+        <li>Male development is the exception that needs active signals (SRY → AMH + testosterone); female is what happens if nothing acts.</li>
+      </ul></div>
+      <div class="hy-card"><h3>Who secretes what (fetal testis)</h3><ul>
+        <li><b>Sertoli cells</b> → AMH (kills Müllerian ducts).</li>
+        <li><b>Leydig cells</b> → testosterone (saves Wolffian ducts; source of DHT).</li>
+        <li><b>DHT</b> (from testosterone, in target tissue) → penis, scrotum, prostate — not the Wolffian derivatives themselves.</li>
+      </ul></div>
+      <div class="hy-card"><h3>Feedback axis, both sexes</h3><ul>
+        <li>GnRH → FSH + LH → gonadal hormones + <b>inhibin B</b>.</li>
+        <li>Inhibin B selectively suppresses <b>FSH only</b> — a common distractor is "suppresses both FSH and LH."</li>
+        <li>Male gonadotropin secretion: <b>noncyclic</b>. Postpubertal female: <b>cyclic/sequential</b> (needed for menstruation, pregnancy, lactation).</li>
+      </ul></div>
+      <div class="hy-card"><h3>Testosterone across life</h3><ul>
+        <li>Two prepubertal bursts: <b>fetal</b> (drives genital differentiation) and <b>neonatal</b> (function unknown).</li>
+        <li>Leydig cells then go quiescent — near-zero levels through childhood.</li>
+        <li>Pubertal rise → adult plateau (highest sustained level) → slow senescent decline.</li>
+      </ul></div>
+      <div class="hy-card"><h3>Menopause mechanism</h3><ul>
+        <li>Root cause: <b>decline in primordial follicles</b>, not "hormone deficiency" per se.</li>
+        <li>FSH rises <b>before</b> LH in perimenopause (inhibin B falls first, disinhibiting FSH specifically).</li>
+        <li>Residual estrogen after menopause = peripheral <b>aromatization of androstenedione</b>, not ovarian secretion.</li>
+        <li>"Andropause" in men is <b>not clearly established</b> — a favorite true/false trap.</li>
+      </ul></div>
+    </div>
+    <div class="hy-trap">
+      <h3>Classic mix-up pairs</h3>
+      <ul>
+        <li><b>Sex determination</b> (genetic, fixed at fertilization) vs. <b>sex differentiation</b> (the fetal developmental process that follows).</li>
+        <li><b>Thelarche</b> (breast development) → <b>pubarche</b> (axillary/pubic hair) → <b>menarche</b> (first period) — don't reorder them.</li>
+        <li><b>Puberty</b> loosely = adolescence in casual use, but strictly defined it's the point reproduction becomes possible.</li>
+        <li><b>AMH</b> acts on ducts (Müllerian regression); <b>testosterone/DHT</b> act on ducts + external genitalia — don't swap their jobs.</li>
+        <li><b>Menarche</b> ≠ fertility: initial cycles are anovulatory; regular ovulation follows about a year later.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>© Anmar Taha — All rights reserved. Study Smart, a personal chapter review companion.</div>
+  <div class="credit-links"><span class="nw">Telegram: <a href="https://t.me/AnmarTaha" target="_blank" rel="noopener">@AnmarTaha</a></span> <span class="sep">|</span> <span class="nw">Instagram: <a href="https://instagram.com/a.za18" target="_blank" rel="noopener">a.za18</a></span></div>
+</footer>
+</div>
+
+<script>
+const FLASHCARDS = [{"f": "What are the male and female gametes called?", "b": "Male gamete: the sperm. Female gamete: the ovum.", "c": "Basics", "l": 1}, {"f": "What is reproduction?", "b": "The processes by which the sperm and the ovum develop, grow, and unite to produce a new and unique combination of genes in the offspring.", "c": "Basics", "l": 1}, {"f": "What is the new entity formed when a sperm and an ovum unite?", "b": "The zygote.", "c": "Basics", "l": 1}, {"f": "What is the developmental sequence inside the maternal uterus?", "b": "Zygote → embryo → fetus.", "c": "Basics", "l": 1}, {"f": "Which organs produce the gametes?", "b": "The gonads: the testes in the male and the ovaries in the female.", "c": "Basics", "l": 1}, {"f": "Besides gamete development and union, what else does reproduction include?", "b": "The process by which a fetus is born.", "c": "Basics", "l": 1}, {"f": "In most mammals, male–female differences depend primarily on what?", "b": "A single chromosome (the Y chromosome) and a single pair of endocrine structures: the testes in the male and the ovaries in the female.", "c": "Basics", "l": 1}, {"f": "How many chromosomes does a primary spermatocyte have?", "b": "46 chromosomes.", "c": "Gametogenesis", "l": 1}, {"f": "How many chromosomes does a secondary spermatocyte have?", "b": "23 chromosomes (after the first meiotic division).", "c": "Gametogenesis", "l": 1}, {"f": "How many sperm cells arise from one primary spermatocyte?", "b": "Four, after two meiotic divisions (each sperm has 23 chromosomes).", "c": "Gametogenesis", "l": 1}, {"f": "How many chromosomes does a mature sperm cell carry?", "b": "23 chromosomes.", "c": "Gametogenesis", "l": 1}, {"f": "What is the chromosome number of the zygote?", "b": "46 chromosomes.", "c": "Gametogenesis", "l": 1}, {"f": "What are polar bodies?", "b": "Small cells (23 chromosomes each) produced during meiosis of the oocyte; they degenerate.", "c": "Gametogenesis", "l": 1}, {"f": "What is crossing-over?", "b": "Exchange of segments between paired homologous chromosomes during the first meiotic division.", "c": "Gametogenesis", "l": 1}, {"f": "What is gametogenesis?", "b": "The production of germ cells (gametes) by the gonads: one of the two functions of the gonads.", "c": "Gametogenesis", "l": 1}, {"f": "What is the genotype?", "b": "The complete genetic composition of an individual.", "c": "Sex Determination", "l": 1}, {"f": "When is the sex of an individual determined?", "b": "At the moment of fertilization, by genetic inheritance.", "c": "Sex Determination", "l": 1}, {"f": "Which chromosomes set the sex of the individual?", "b": "The sex chromosomes: X (the larger) and Y (the smaller).", "c": "Sex Determination", "l": 1}, {"f": "Which sex chromosomes do males possess?", "b": "One X and one Y (XY).", "c": "Sex Determination", "l": 1}, {"f": "Which sex chromosomes do females possess?", "b": "Two X chromosomes (XX).", "c": "Sex Determination", "l": 1}, {"f": "What does the presence of the Y chromosome lead to?", "b": "Development of the male gonads, the testes.", "c": "Sex Determination", "l": 1}, {"f": "What does the absence of the Y chromosome lead to?", "b": "Development of the female gonads, the ovaries.", "c": "Sex Determination", "l": 1}, {"f": "Which is larger: the X or the Y chromosome?", "b": "The X chromosome is larger; the Y is smaller.", "c": "Sex Determination", "l": 1}, {"f": "From which structure do both testes and ovaries arise?", "b": "The urogenital (gonadal) ridge.", "c": "Gonad Differentiation", "l": 1}, {"f": "Until which week are the primordial gonads undifferentiated?", "b": "Until the sixth week of uterine life.", "c": "Gonad Differentiation", "l": 1}, {"f": "When do the testes begin to develop in the genetic male?", "b": "During the seventh week.", "c": "Gonad Differentiation", "l": 1}, {"f": "Which gene triggers testis development?", "b": "The SRY gene on the Y chromosome.", "c": "Gonad Differentiation", "l": 1}, {"f": "What does SRY stand for?", "b": "Sex-determining region of the Y chromosome.", "c": "Gonad Differentiation", "l": 1}, {"f": "What develops in the absence of the Y chromosome and the SRY gene?", "b": "Testes do not develop; ovaries begin to develop in the same area.", "c": "Gonad Differentiation", "l": 1}, {"f": "Which two genital duct systems are present in the undifferentiated fetus?", "b": "The Wolffian ducts and the Müllerian ducts.", "c": "Ducts", "l": 1}, {"f": "What happens to the two duct systems in the male?", "b": "The Wolffian ducts persist and the Müllerian ducts regress.", "c": "Ducts", "l": 1}, {"f": "What happens to the two duct systems in the female?", "b": "The Müllerian ducts persist and the Wolffian ducts regress.", "c": "Ducts", "l": 1}, {"f": "Which hormone causes degeneration of the Müllerian ducts?", "b": "Anti-Müllerian hormone (AMH).", "c": "Ducts", "l": 1}, {"f": "What does AMH stand for, and what was it formerly called?", "b": "Anti-Müllerian hormone; formerly Müllerian-inhibiting substance (MIS).", "c": "Ducts", "l": 1}, {"f": "What does testosterone do to the Wolffian ducts?", "b": "It makes them differentiate into the epididymis, vas deferens, ejaculatory duct, and seminal vesicles.", "c": "Ducts", "l": 1}, {"f": "What do the Müllerian ducts become in the female?", "b": "The uterus, the fallopian (uterine) tubes, and the inner vagina.", "c": "Ducts", "l": 1}, {"f": "Which fetal testicular cells secrete AMH?", "b": "Sertoli cells (Leydig cells secrete testosterone).", "c": "Ducts", "l": 1}, {"f": "Do the external genitalia develop from the Wolffian or Müllerian ducts?", "b": "No. They develop from other structures at the body surface.", "c": "External Genitalia", "l": 1}, {"f": "Which hormone, produced from testosterone in target tissue, forms the penis and scrotum?", "b": "Dihydrotestosterone (DHT).", "c": "External Genitalia", "l": 1}, {"f": "What forms externally in the absence of testosterone?", "b": "The female external genitalia and the outer vagina.", "c": "External Genitalia", "l": 1}, {"f": "What are the two functions of the gonads in both sexes?", "b": "Production of germ cells (gametogenesis) and secretion of sex hormones.", "c": "Hormones General", "l": 1}, {"f": "What are androgens?", "b": "Steroid sex hormones that are masculinizing in their action.", "c": "Hormones General", "l": 1}, {"f": "What are estrogens?", "b": "Steroid sex hormones that are feminizing in their action.", "c": "Hormones General", "l": 1}, {"f": "Are androgens and estrogens found in both sexes?", "b": "Yes. Both types are normally secreted in both sexes.", "c": "Hormones General", "l": 1}, {"f": "What do the ovaries secrete?", "b": "Large amounts of estrogens and small amounts of androgens (a pattern reversed in males).", "c": "Hormones General", "l": 1}, {"f": "Besides the gonads, where are androgens secreted?", "b": "From the adrenal cortex, in both sexes.", "c": "Hormones General", "l": 1}, {"f": "Which gonadal polypeptide inhibits FSH secretion?", "b": "Inhibin B.", "c": "Hormones General", "l": 1}, {"f": "Which two anterior pituitary gonadotropins control the gonads?", "b": "Follicle-stimulating hormone (FSH) and luteinizing hormone (LH).", "c": "Hormones General", "l": 1}, {"f": "What is the pattern of gonadotropin secretion in males?", "b": "Noncyclic.", "c": "Hormonal Control", "l": 1}, {"f": "What is the pattern in postpubertal females, and why is it needed?", "b": "An orderly, sequential secretion, necessary for menstruation, pregnancy, and lactation.", "c": "Hormonal Control", "l": 1}, {"f": "What do sex hormones and inhibin B do to gonadotropin secretion?", "b": "They feed back to inhibit it.", "c": "Hormonal Control", "l": 1}, {"f": "When are the gonads quiescent?", "b": "After birth, until adolescence.", "c": "Puberty", "l": 1}, {"f": "What activates the gonads at adolescence?", "b": "Gonadotropins from the anterior pituitary.", "c": "Puberty", "l": 1}, {"f": "What is the first event of puberty in girls?", "b": "Thelarche: the development of the breasts.", "c": "Puberty", "l": 1}, {"f": "Define pubarche and menarche.", "b": "Pubarche: development of axillary and pubic hair. Menarche: the first menstrual period.", "c": "Puberty", "l": 1}, {"f": "At what ages does puberty generally occur?", "b": "Between 8 and 13 years in girls, and between 9 and 14 years in boys.", "c": "Puberty", "l": 1}, {"f": "What is adrenarche?", "b": "The onset of the increase in secretion of adrenal androgens.", "c": "Puberty", "l": 1}, {"f": "What is menopause?", "b": "The disappearance of sexual cycles as ovarian function declines with age.", "c": "Menopause", "l": 1}, {"f": "What is the average age at onset of menopause?", "b": "52 years.", "c": "Menopause", "l": 1}, {"f": "Name two common symptoms of menopause.", "b": "Hot flushes (hot flashes) and night sweats.", "c": "Menopause", "l": 1}, {"f": "Why is the key genotype difference between males and females said to arise from ONE chromosome?", "b": "Males are XY and females are XX, so they differ by a single chromosome: the Y.", "c": "Sex Determination", "l": 2}, {"f": "Which gamete determines the chromosomal sex of the zygote, and why?", "b": "The sperm. Every ovum carries an X, whereas sperm carry either an X or a Y.", "c": "Sex Determination", "l": 2}, {"f": "A 44XY primary spermatocyte completes meiosis. What sperm result?", "b": "Four sperm: two 22X and two 22Y.", "c": "Sex Determination", "l": 2}, {"f": "What does a 44XX immature ovum give after meiosis?", "b": "A mature ovum of 22X plus two polar bodies (22X each), so every ovum carries an X.", "c": "Sex Determination", "l": 2}, {"f": "Fertilization of a 22X ovum by a 22Y sperm gives what zygote?", "b": "A 44XY zygote: a genetic male.", "c": "Sex Determination", "l": 2}, {"f": "What does the notation 22X or 44XX tell you?", "b": "The number of non-sex chromosomes (22 or 44) followed by the sex chromosomes.", "c": "Sex Determination", "l": 2}, {"f": "What is the chromosome number of a primary oocyte and of a secondary oocyte?", "b": "Primary oocyte: 46. Secondary oocyte: 23.", "c": "Gametogenesis", "l": 2}, {"f": "How does the outcome of meiosis differ in the testis and the ovary?", "b": "Testis: one primary spermatocyte gives four sperm. Ovary: one primary oocyte gives one ovum plus polar bodies that degenerate.", "c": "Gametogenesis", "l": 2}, {"f": "When is the second meiotic division of the oocyte completed?", "b": "After fertilization, giving the zygote (46) and the second polar body (23).", "c": "Gametogenesis", "l": 2}, {"f": "Which cell stage carries out the second meiotic division in the male?", "b": "The secondary spermatocyte, giving spermatids that mature into sperm cells.", "c": "Gametogenesis", "l": 2}, {"f": "What is the fate of polar bodies?", "b": "They degenerate.", "c": "Gametogenesis", "l": 2}, {"f": "In humans, what is genetically determined and what depends on the testis?", "b": "Differentiation of the primitive gonads into testes or ovaries is genetically determined; formation of male genitalia depends on a functional, secreting testis.", "c": "Basics", "l": 2}, {"f": "What happens to genital development in the absence of testicular tissue?", "b": "Development is female.", "c": "Basics", "l": 2}, {"f": "In which cells is the SRY gene expressed, and when?", "b": "In urogenital ridge cells during the seventh week.", "c": "Gonad Differentiation", "l": 2}, {"f": "What is the role of SRY protein in duct differentiation?", "b": "It induces expression of the gene for AMH, which then degenerates the Müllerian ducts.", "c": "Ducts", "l": 2}, {"f": "Why do the Wolffian ducts regress in the female?", "b": "Because of the absence of testosterone.", "c": "Ducts", "l": 2}, {"f": "Why do the Müllerian ducts persist in the female?", "b": "Because of the absence of AMH.", "c": "Ducts", "l": 2}, {"f": "What is common to the genital ducts and urinary system before differentiation?", "b": "A common opening to the outside (the cloaca).", "c": "Ducts", "l": 2}, {"f": "What does the mesonephric (Wolffian) duct form in the male, according to the figure?", "b": "The vas deferens.", "c": "Ducts", "l": 2}, {"f": "What forms the uterus in the female?", "b": "The fused Müllerian ducts.", "c": "Ducts", "l": 2}, {"f": "What does the urogenital sinus form in males and females?", "b": "Male: the urethra. Female: the urethra and the lower vagina.", "c": "Ducts", "l": 2}, {"f": "What does the embryo contain at the sexually indifferent stage (5–6 weeks)?", "b": "Gonadal ridge (can become testis or ovary), Wolffian and Müllerian ducts, and the cloaca.", "c": "Ducts", "l": 2}, {"f": "When do the duct changes appear in the figure for males and females?", "b": "Males: 7–8 weeks. Females: 8–9 weeks.", "c": "Ducts", "l": 2}, {"f": "Which cell type makes AMH and which makes testosterone?", "b": "Sertoli cells make AMH; Leydig cells make testosterone.", "c": "Ducts", "l": 2}, {"f": "Where is DHT produced, and what does it do?", "b": "In target tissue, from testosterone. It forms the penis, scrotum, and prostate.", "c": "External Genitalia", "l": 2}, {"f": "Is external masculinization earlier or later than duct differentiation?", "b": "Somewhat later, under the influence primarily of DHT.", "c": "External Genitalia", "l": 2}, {"f": "What does the developing glans become in each sex?", "b": "Male: glans of the penis. Female: glans of the clitoris.", "c": "External Genitalia", "l": 2}, {"f": "What forms the labia in the female according to the figure?", "b": "The labioscrotal folds form the labia majora, and the urogenital folds form the labia minora (in males they form the scrotum and enclose the urethral groove).", "c": "External Genitalia", "l": 2}, {"f": "What causes male sexual behavior and the male gonadotropin pattern in some species?", "b": "The action of male hormones on the brain in early development.", "c": "Hormonal Control", "l": 2}, {"f": "Where else are androgens converted to estrogens?", "b": "In fat and other extragonadal and extra-adrenal tissues.", "c": "Hormones General", "l": 2}, {"f": "Which two cell types are in the testis and the ovary in the feedback figures?", "b": "Testis: Leydig and Sertoli cells. Ovary: theca interna and granulosa cells.", "c": "Hormones General", "l": 2}, {"f": "What feeds back to the hypothalamus and pituitary in the male?", "b": "Testosterone and inhibin B.", "c": "Hormonal Control", "l": 2}, {"f": "What feeds back to the hypothalamus and pituitary in the female?", "b": "Estrogen and inhibin B.", "c": "Hormonal Control", "l": 2}, {"f": "Which hypothalamic hormone drives LH and FSH release?", "b": "GnRH.", "c": "Hormonal Control", "l": 2}, {"f": "How does gonadal aging differ between the sexes?", "b": "In males, gonadal function declines slowly and viable gametes persist; in females, ovarian function regresses and cycles cease (menopause).", "c": "Hormonal Control", "l": 2}, {"f": "Describe male plasma testosterone in fetal, neonatal, and prepubertal life.", "b": "A burst before birth, another in the neonatal period (function unknown), then Leydig cells become quiescent and levels stay near zero until puberty.", "c": "Puberty", "l": 2}, {"f": "Strictly defined, what is puberty?", "b": "The period when the endocrine and gametogenic functions of the gonads first develop to the point where reproduction is possible.", "c": "Puberty", "l": 2}, {"f": "What is typical of the first menstrual periods?", "b": "They are generally anovulatory; regular ovulation appears about a year later.", "c": "Puberty", "l": 2}, {"f": "What happens to gonadotropins if gonads are removed between birth and puberty?", "b": "Only a small increase, so gonadotropin secretion is not being held in check by gonadal hormones.", "c": "Puberty", "l": 2}, {"f": "What happens at ages 7 to 10?", "b": "A slow increase in estrogen and androgen secretion that precedes the more rapid rise in the early teens.", "c": "Puberty", "l": 2}, {"f": "At what ages does adrenarche occur?", "b": "Girls: 8–10 years. Boys: 10–12 years.", "c": "Puberty", "l": 2}, {"f": "What appears to cause the rise of adrenal androgens at adrenarche?", "b": "Increased activity of 17α-hydroxylase.", "c": "Puberty", "l": 2}, {"f": "When does DHEA peak?", "b": "At about age 25 in women, slightly later in men, then it declines slowly to low values in old age.", "c": "Puberty", "l": 2}, {"f": "Why do the ovaries become unresponsive to gonadotropins?", "b": "Probably because of a decline in the number of primordial follicles, which becomes precipitous at menopause.", "c": "Menopause", "l": 2}, {"f": "Which ovarian hormones are lost at menopause, and where does residual estrogen come from?", "b": "Progesterone and 17β-estradiol are no longer secreted; small amounts of estrogen form by aromatization of androstenedione in peripheral tissues.", "c": "Menopause", "l": 2}, {"f": "Why does FSH rise after menopause?", "b": "Negative feedback of estrogens and progesterone is reduced; FSH becomes high and LH moderately high.", "c": "Menopause", "l": 2}, {"f": "What is perimenopause?", "b": "A period preceding menopause lasting up to 10 years, with rising FSH, then LH, falling estrogen, progesterone and inhibins, and irregular menses.", "c": "Menopause", "l": 2}, {"f": "How do the uterus and vagina change after menopause?", "b": "They gradually become atrophic.", "c": "Menopause", "l": 2}, {"f": "What diseases show increased risk after menopause?", "b": "Osteoporosis, ischemic heart disease, and renal disease.", "c": "Menopause", "l": 2}, {"f": "How common are hot flushes and how long can they last?", "b": "About 75% of menopausal women; may continue intermittently for as long as 40 years.", "c": "Menopause", "l": 2}, {"f": "An XY fetus has testes that secrete neither AMH nor testosterone. What happens to ducts and external genitalia?", "b": "Müllerian ducts persist (no AMH), Wolffian ducts regress (no testosterone), and external genitalia are female-type.", "c": "Ducts", "l": 3}, {"f": "An XY fetus has normal AMH but no testosterone. What happens to the ducts?", "b": "Both regress: Müllerian ducts degenerate under AMH, and Wolffian ducts regress without testosterone.", "c": "Ducts", "l": 3}, {"f": "An XY fetus has normal testosterone but no AMH. What happens to the ducts?", "b": "Wolffian ducts differentiate, and the Müllerian ducts also persist because nothing causes their degeneration.", "c": "Ducts", "l": 3}, {"f": "A fetus cannot convert testosterone to DHT. What is affected?", "b": "Wolffian derivatives still form, but penis, scrotum, and prostate development is impaired.", "c": "External Genitalia", "l": 3}, {"f": "According to the flow chart, which male structures develop under DHT rather than by Wolffian transformation?", "b": "The penis, the scrotum, and the prostate.", "c": "External Genitalia", "l": 3}, {"f": "List the Wolffian derivatives formed under testosterone in the male.", "b": "Epididymis, vas deferens, seminal vesicles, and ejaculatory duct.", "c": "Ducts", "l": 3}, {"f": "Which female structures come from Müllerian ducts, the urogenital sinus, and body-surface tissue?", "b": "Müllerian: uterine tubes, uterus, inner vagina. Urogenital sinus: urethra and lower vagina. Surface structures: outer vagina and external genitalia.", "c": "Ducts", "l": 3}, {"f": "Why is female development called the 'default' pathway?", "b": "Without testicular tissue (no SRY, AMH, or testosterone), ovaries form, Müllerian derivatives persist, and development is female.", "c": "Basics", "l": 3}, {"f": "Why is gonadal sex genetic but genital sex hormonal?", "b": "Testis vs ovary is set genetically by SRY. Male ducts and genitalia need hormones from a functional, secreting testis.", "c": "Basics", "l": 3}, {"f": "Contrast genotype with the sexual phenotype.", "b": "Genotype (XX or XY) is set at fertilization; the phenotype (ducts, external genitalia) develops later under gonadal hormone control.", "c": "Basics", "l": 3}, {"f": "With normal meiosis, what is the probability that a zygote is XX?", "b": "One half: all ova carry X, and half of the sperm carry X and half carry Y.", "c": "Sex Determination", "l": 3}, {"f": "What does the '44' in '44XX' represent?", "b": "The number of autosomes (non-sex chromosomes); with two sex chromosomes this makes 46.", "c": "Sex Determination", "l": 3}, {"f": "Trace the chain that makes a 44XY zygote a male.", "b": "Y present → SRY expressed in ridge cells (week 7) → testes → AMH and testosterone → male ducts and genitalia.", "c": "Sex Determination", "l": 3}, {"f": "At which step is the chromosome number halved from 46 to 23?", "b": "During the first meiotic division (primary → secondary spermatocyte or oocyte).", "c": "Gametogenesis", "l": 3}, {"f": "Compare the timing of the second meiotic division in the sperm line and the oocyte.", "b": "In the sperm line it proceeds to spermatids in the testis; in the oocyte it is completed only after fertilization.", "c": "Gametogenesis", "l": 3}, {"f": "How many chromosomes in total are in all four sperm cells from one primary spermatocyte?", "b": "92 (4 × 23), from a parent cell of 46.", "c": "Gametogenesis", "l": 3}, {"f": "What is the origin of the first and second polar bodies?", "b": "The first arises from the first meiotic division; the second arises after fertilization from the second division. Each has 23 chromosomes.", "c": "Gametogenesis", "l": 3}, {"f": "How does the zygote get 46 chromosomes?", "b": "23 from the sperm nucleus plus 23 from the secondary oocyte.", "c": "Gametogenesis", "l": 3}, {"f": "Why is the timing of SRY expression important?", "b": "The ridge stays undifferentiated until week 6; SRY expression in week 7 switches it to testis formation.", "c": "Gonad Differentiation", "l": 3}, {"f": "Describe the feedback loop in the female (Figure 22–19).", "b": "GnRH → LH/FSH → theca interna and granulosa cells → estrogen (to hypothalamus and pituitary) and inhibin B (to pituitary) inhibit.", "c": "Hormonal Control", "l": 3}, {"f": "Describe the feedback loop in the male (Figure 23–10).", "b": "GnRH → LH/FSH → Leydig and Sertoli cells → testosterone and inhibin B feed back to inhibit gonadotropin release.", "c": "Hormonal Control", "l": 3}, {"f": "Why does gonadectomy in childhood raise gonadotropins only slightly?", "b": "Because gonadotropin secretion at that age is not being held in check by gonadal hormones.", "c": "Hormonal Control", "l": 3}, {"f": "Interpret Figure 22–8 for prepubertal boys.", "b": "Plasma testosterone is near zero because Leydig cells are quiescent between the neonatal burst and puberty.", "c": "Puberty", "l": 3}, {"f": "Compare the peaks in Figure 22–8.", "b": "The adult level (about 500 ng/dL) exceeds the fetal and neonatal bursts, then declines gradually in senescence.", "c": "Puberty", "l": 3}, {"f": "Give the full sequence of female pubertal milestones.", "b": "Thelarche → pubarche → menarche → regular ovulation about a year later.", "c": "Puberty", "l": 3}, {"f": "Distinguish pubarche from adrenarche.", "b": "Pubarche is the appearance of axillary and pubic hair; adrenarche is the onset of rising adrenal androgen secretion.", "c": "Puberty", "l": 3}, {"f": "A 9-year-old girl has rising adrenal androgens. Is this abnormal?", "b": "No. Adrenarche occurs at 8–10 years in girls (10–12 in boys).", "c": "Puberty", "l": 3}, {"f": "How do girls compare with boys in timing?", "b": "Girls start earlier: puberty 8–13 vs 9–14, and adrenarche 8–10 vs 10–12.", "c": "Puberty", "l": 3}, {"f": "How does DHEA differ from gonadal hormones across life?", "b": "DHEA peaks at about 25 in women (slightly later in men), then declines slowly to low values in old age.", "c": "Puberty", "l": 3}, {"f": "Which enzyme change appears to drive the adrenal androgen rise?", "b": "Increased activity of 17α-hydroxylase.", "c": "Puberty", "l": 3}, {"f": "What is the hormonal profile after menopause?", "b": "Low estradiol and progesterone, high FSH, moderately high LH, and atrophic uterus and vagina.", "c": "Menopause", "l": 3}, {"f": "Why does FSH rise before LH in perimenopause?", "b": "Because estrogen, progesterone, and inhibins decrease; inhibin B specifically inhibits FSH.", "c": "Menopause", "l": 3}, {"f": "What initiates hot flushes according to the source?", "b": "An estrogen-sensitive event in the hypothalamus that starts both LH release and the flushing episode.", "c": "Menopause", "l": 3}, {"f": "A 51-year-old woman has irregular menses, night sweats, and high FSH. What stage is this?", "b": "Perimenopause (usually ages 45–55; menopause averages 52).", "c": "Menopause", "l": 3}, {"f": "Why is male gonadal aging different from female?", "b": "Ovarian primordial follicles decline precipitously, stopping cycles; testicular function declines slowly, gametes persist, and andropause is unproven.", "c": "Menopause", "l": 3}, {"f": "Where does postmenopausal estrogen come from?", "b": "Small amounts from aromatization of androstenedione in peripheral tissues (androgens can be converted to estrogens in fat).", "c": "Menopause", "l": 3}, {"f": "Name the male structures labelled at birth in the figure.", "b": "Urinary bladder, seminal vesicle, prostate gland, bulbourethral gland, vas deferens, epididymis, testis, urethra, penis.", "c": "Ducts", "l": 3}, {"f": "Name the female structures labelled at birth in the figure.", "b": "Uterine tube, ovary, uterus, urinary bladder, vagina, urethra, hymen, vestibule.", "c": "Ducts", "l": 3}, {"f": "What evidence shows the brain is sexually differentiated early?", "b": "Male sexual behavior and, in some species, the male pattern of gonadotropin secretion result from male hormones acting on the brain in early development.", "c": "Hormonal Control", "l": 3}, {"f": "Why is sequential gonadotropin secretion required only in females?", "b": "Menstruation, pregnancy, and lactation require it, whereas male secretion is noncyclic.", "c": "Hormonal Control", "l": 3}];
+const QUIZ = [{"q": "What is the male gamete called?", "correct": "The sperm", "distractors": ["The ovum", "The zygote", "The polar body"], "cat": "Basics", "l": 1}, {"q": "What is the female gamete called?", "correct": "The ovum", "distractors": ["The sperm", "The zygote", "The spermatid"], "cat": "Basics", "l": 1}, {"q": "The union of a sperm and an ovum produces a new entity called the:", "correct": "Zygote", "distractors": ["Embryo", "Fetus", "Gonad"], "cat": "Basics", "l": 1}, {"q": "Which sequence correctly describes development inside the maternal uterus?", "correct": "Zygote → embryo → fetus", "distractors": ["Embryo → zygote → fetus", "Fetus → embryo → zygote", "Zygote → fetus → embryo"], "cat": "Basics", "l": 1}, {"q": "Which organs produce the gametes in males?", "correct": "The testes", "distractors": ["The ovaries", "The adrenal glands", "The seminal vesicles"], "cat": "Basics", "l": 1}, {"q": "Where do the embryo and fetus develop?", "correct": "Within the maternal uterus", "distractors": ["Within the ovary", "Within the uterine tube", "Within the vagina"], "cat": "Basics", "l": 1}, {"q": "Besides gamete development and union, reproduction also includes:", "correct": "The process by which a fetus is born", "distractors": ["Secretion of adrenal androgens", "Aging of the gonads", "Regression of the Müllerian ducts"], "cat": "Basics", "l": 1}, {"q": "In most mammals, male–female differences depend primarily on which single chromosome?", "correct": "The Y chromosome", "distractors": ["The X chromosome", "An autosome", "Both X chromosomes together"], "cat": "Basics", "l": 1}, {"q": "How many chromosomes does a primary spermatocyte contain?", "correct": "46", "distractors": ["23", "92", "44"], "cat": "Gametogenesis", "l": 1}, {"q": "How many chromosomes does a secondary spermatocyte contain?", "correct": "23", "distractors": ["46", "92", "69"], "cat": "Gametogenesis", "l": 1}, {"q": "How many chromosomes does a mature sperm cell contain?", "correct": "23", "distractors": ["46", "22", "92"], "cat": "Gametogenesis", "l": 1}, {"q": "How many chromosomes does the zygote contain?", "correct": "46", "distractors": ["23", "92", "69"], "cat": "Gametogenesis", "l": 1}, {"q": "How many sperm cells arise from one primary spermatocyte?", "correct": "Four", "distractors": ["One", "Two", "Eight"], "cat": "Gametogenesis", "l": 1}, {"q": "What are the small cells produced during oocyte meiosis that eventually degenerate?", "correct": "Polar bodies", "distractors": ["Spermatids", "Sertoli cells", "Leydig cells"], "cat": "Gametogenesis", "l": 1}, {"q": "Exchange of segments between homologous chromosomes is called:", "correct": "Crossing-over", "distractors": ["Fertilization", "Polar body formation", "Spermatid maturation"], "cat": "Gametogenesis", "l": 1}, {"q": "The complete genetic composition of an individual is called the:", "correct": "Genotype", "distractors": ["Phenotype", "Gonad", "Zygote"], "cat": "Sex Determination", "l": 1}, {"q": "When is the sex of an individual established?", "correct": "At the moment of fertilization", "distractors": ["At the sixth week of uterine life", "At the seventh week of uterine life", "At the onset of puberty"], "cat": "Sex Determination", "l": 1}, {"q": "Which pair of chromosomes sets the sex of the individual?", "correct": "X and Y", "distractors": ["Chromosomes 21 and 22", "Chromosomes 1 and 2", "A and B"], "cat": "Sex Determination", "l": 1}, {"q": "Which statement about the sex chromosomes is correct?", "correct": "The X is larger than the Y", "distractors": ["The Y is larger than the X", "They are identical in size", "The X is larger only in males"], "cat": "Sex Determination", "l": 1}, {"q": "Which sex chromosome constitution do males have?", "correct": "One X and one Y", "distractors": ["Two X chromosomes", "Two Y chromosomes", "One X only"], "cat": "Sex Determination", "l": 1}, {"q": "Which sex chromosome constitution do females have?", "correct": "Two X chromosomes", "distractors": ["One X and one Y", "Two Y chromosomes", "One Y only"], "cat": "Sex Determination", "l": 1}, {"q": "The presence of the Y chromosome leads to development of:", "correct": "Testes", "distractors": ["Ovaries", "No gonads", "Both testes and ovaries"], "cat": "Sex Determination", "l": 1}, {"q": "The absence of the Y chromosome leads to development of:", "correct": "Ovaries", "distractors": ["Testes", "No gonads", "Both testes and ovaries"], "cat": "Sex Determination", "l": 1}, {"q": "From which embryonic structure do both testes and ovaries derive?", "correct": "The urogenital (gonadal) ridge", "distractors": ["The neural crest", "The yolk sac", "The Wolffian duct"], "cat": "Gonad Differentiation", "l": 1}, {"q": "Until which week are the primordial gonads undifferentiated?", "correct": "The sixth week", "distractors": ["The second week", "The tenth week", "The twelfth week"], "cat": "Gonad Differentiation", "l": 1}, {"q": "In the genetic male, the testes begin to develop during the:", "correct": "Seventh week", "distractors": ["Fourth week", "Ninth week", "Twelfth week"], "cat": "Gonad Differentiation", "l": 1}, {"q": "Which gene on the Y chromosome triggers testis development?", "correct": "The SRY gene", "distractors": ["The AMH gene", "The FSH gene", "The LH gene"], "cat": "Gonad Differentiation", "l": 1}, {"q": "What does SRY stand for?", "correct": "Sex-determining region of the Y chromosome", "distractors": ["Sertoli-related Y receptor", "Steroid-releasing Y region", "Sperm-regulating Y receptor"], "cat": "Gonad Differentiation", "l": 1}, {"q": "In the absence of the SRY gene, the urogenital ridge:", "correct": "Develops into ovaries", "distractors": ["Develops into testes", "Degenerates completely", "Forms Wolffian ducts only"], "cat": "Gonad Differentiation", "l": 1}, {"q": "Which two duct systems are present in the undifferentiated fetus?", "correct": "Wolffian and Müllerian", "distractors": ["Urethral and ureteric", "Cystic and hepatic", "Wolffian and Sertoli"], "cat": "Ducts", "l": 1}, {"q": "In the male, which duct system persists?", "correct": "The Wolffian ducts", "distractors": ["The Müllerian ducts", "Both systems", "Neither system"], "cat": "Ducts", "l": 1}, {"q": "In the female, which duct system persists?", "correct": "The Müllerian ducts", "distractors": ["The Wolffian ducts", "Both systems", "Neither system"], "cat": "Ducts", "l": 1}, {"q": "Which hormone causes degeneration of the Müllerian ducts?", "correct": "Anti-Müllerian hormone", "distractors": ["Testosterone", "Dihydrotestosterone", "Inhibin B"], "cat": "Ducts", "l": 1}, {"q": "Which hormone makes the Wolffian ducts differentiate?", "correct": "Testosterone", "distractors": ["Anti-Müllerian hormone", "Estrogen", "Inhibin B"], "cat": "Ducts", "l": 1}, {"q": "Which structure derives from the Wolffian ducts in the male?", "correct": "The epididymis", "distractors": ["The uterus", "The fallopian tube", "The inner vagina"], "cat": "Ducts", "l": 1}, {"q": "Which structure derives from the Müllerian ducts in the female?", "correct": "The uterus", "distractors": ["The epididymis", "The vas deferens", "The seminal vesicle"], "cat": "Ducts", "l": 1}, {"q": "Which fetal testicular cells secrete anti-Müllerian hormone?", "correct": "Sertoli cells", "distractors": ["Leydig cells", "Granulosa cells", "Theca interna cells"], "cat": "Ducts", "l": 1}, {"q": "The external genitalia develop from:", "correct": "Other structures at the body surface", "distractors": ["The Wolffian ducts", "The Müllerian ducts", "The urogenital ridge only"], "cat": "External Genitalia", "l": 1}, {"q": "Which hormone, produced from testosterone in target tissue, forms the penis and scrotum?", "correct": "Dihydrotestosterone", "distractors": ["Anti-Müllerian hormone", "Inhibin B", "DHEA"], "cat": "External Genitalia", "l": 1}, {"q": "In the absence of testosterone, the external genitalia are:", "correct": "Female", "distractors": ["Male", "Absent", "Both male and female"], "cat": "External Genitalia", "l": 1}, {"q": "Before differentiation, the genital ducts and the urinary system share:", "correct": "A common opening to the outside", "distractors": ["Separate openings", "No opening", "An opening only in males"], "cat": "External Genitalia", "l": 1}, {"q": "What are the two functions of the gonads?", "correct": "Gamete production and sex hormone secretion", "distractors": ["Gamete production and insulin secretion", "Sex hormone secretion and thyroid regulation", "Ovulation and digestion"], "cat": "Hormones General", "l": 1}, {"q": "Androgens are:", "correct": "Masculinizing steroid sex hormones", "distractors": ["Feminizing steroid sex hormones", "Polypeptides that inhibit FSH", "Anterior pituitary gonadotropins"], "cat": "Hormones General", "l": 1}, {"q": "Estrogens are:", "correct": "Feminizing steroid sex hormones", "distractors": ["Masculinizing steroid sex hormones", "Polypeptides that inhibit FSH", "Anterior pituitary gonadotropins"], "cat": "Hormones General", "l": 1}, {"q": "Which statement about sex hormones is correct?", "correct": "Both types are normally secreted in both sexes", "distractors": ["Androgens occur only in males", "Estrogens occur only in females", "Both occur only after puberty"], "cat": "Hormones General", "l": 1}, {"q": "What do the ovaries secrete?", "correct": "Large amounts of estrogens and small amounts of androgens", "distractors": ["Large amounts of androgens and small amounts of estrogens", "Only estrogens", "Only androgens"], "cat": "Hormones General", "l": 1}, {"q": "Which gland secretes androgens in both sexes besides the gonads?", "correct": "The adrenal cortex", "distractors": ["The anterior pituitary", "The thyroid", "The pancreas"], "cat": "Hormones General", "l": 1}, {"q": "Which gonadal polypeptide inhibits FSH secretion?", "correct": "Inhibin B", "distractors": ["Anti-Müllerian hormone", "Testosterone", "Estradiol"], "cat": "Hormones General", "l": 1}, {"q": "Which two gonadotropins are secreted by the anterior pituitary?", "correct": "FSH and LH", "distractors": ["GnRH and AMH", "DHT and DHEA", "Inhibin and estrogen"], "cat": "Hormones General", "l": 1}, {"q": "Gonadotropin secretion in males is:", "correct": "Noncyclic", "distractors": ["Cyclic", "Sequential", "Absent after puberty"], "cat": "Hormonal Control", "l": 1}, {"q": "In postpubertal females, orderly sequential gonadotropin secretion is necessary for:", "correct": "Menstruation, pregnancy, and lactation", "distractors": ["Wolffian duct differentiation", "Sertoli cell function", "Testis formation"], "cat": "Hormonal Control", "l": 1}, {"q": "Sex hormones and inhibin B feed back to:", "correct": "Inhibit gonadotropin secretion", "distractors": ["Stimulate gonadotropin secretion", "Have no effect on gonadotropins", "Destroy the pituitary"], "cat": "Hormonal Control", "l": 1}, {"q": "The gonads remain quiescent after birth until:", "correct": "Adolescence", "distractors": ["Birth", "Age 3", "The seventh week"], "cat": "Puberty", "l": 1}, {"q": "What is the first event of puberty in girls?", "correct": "Thelarche", "distractors": ["Pubarche", "Menarche", "Adrenarche"], "cat": "Puberty", "l": 1}, {"q": "Menarche is:", "correct": "The first menstrual period", "distractors": ["Development of the breasts", "Development of pubic hair", "The rise in adrenal androgens"], "cat": "Puberty", "l": 1}, {"q": "Puberty generally occurs between which ages in girls?", "correct": "8 and 13 years", "distractors": ["9 and 14 years", "12 and 18 years", "5 and 8 years"], "cat": "Puberty", "l": 1}, {"q": "Adrenarche is:", "correct": "The onset of increased adrenal androgen secretion", "distractors": ["Development of the breasts", "The first menstrual period", "The end of ovarian function"], "cat": "Puberty", "l": 1}, {"q": "Menopause is the:", "correct": "Cessation of sexual cycles", "distractors": ["Onset of sexual cycles", "First menstrual period", "Onset of ovulation"], "cat": "Menopause", "l": 1}, {"q": "What is the average age at onset of menopause?", "correct": "52 years", "distractors": ["45 years", "40 years", "60 years"], "cat": "Menopause", "l": 1}, {"q": "Which is a symptom of menopause?", "correct": "Hot flushes", "distractors": ["Thelarche", "Adrenarche", "Spermatogenesis"], "cat": "Menopause", "l": 1}, {"q": "Why does the father's gamete determine the sex of the child?", "correct": "All ova carry an X; sperm carry either an X or a Y", "distractors": ["All sperm carry a Y; ova carry either X or Y", "Ova carry an X or Y with equal probability", "Both gametes always carry an X"], "cat": "Sex Determination", "l": 2}, {"q": "A 44XY primary spermatocyte undergoes meiosis. What sperm result?", "correct": "Two 22X and two 22Y", "distractors": ["Four 22XY", "Four 22Y", "Two 22X and two 22XY"], "cat": "Sex Determination", "l": 2}, {"q": "Which zygote results from a 22X ovum fertilized by a 22Y sperm?", "correct": "44XY, a genetic male", "distractors": ["44XX, a genetic female", "44YY, a genetic male", "22XY, a genetic male"], "cat": "Sex Determination", "l": 2}, {"q": "What does the '22' in 22X represent?", "correct": "The non-sex chromosomes; with the X it totals 23", "distractors": ["The number of X chromosomes", "The number of polar bodies", "The chromosomes lost in meiosis"], "cat": "Sex Determination", "l": 2}, {"q": "How many functional ova result from one primary oocyte?", "correct": "One; the other products are polar bodies that degenerate", "distractors": ["Four; all are functional", "Two; both are functional", "One; the others become sperm"], "cat": "Gametogenesis", "l": 2}, {"q": "The second meiotic division of the oocyte is completed after:", "correct": "Fertilization", "distractors": ["Crossing-over", "Birth", "Puberty"], "cat": "Gametogenesis", "l": 2}, {"q": "How many chromosomes does the first polar body have?", "correct": "23", "distractors": ["46", "92", "69"], "cat": "Gametogenesis", "l": 2}, {"q": "The 46 chromosomes of the zygote come from:", "correct": "23 from the sperm and 23 from the ovum", "distractors": ["46 from the ovum", "46 from the sperm", "23 from each polar body"], "cat": "Gametogenesis", "l": 2}, {"q": "Which contrast between sex determination and differentiation is correct?", "correct": "Determination is set by chromosomes at fertilization; differentiation is fetal development of the reproductive system", "distractors": ["Determination happens at puberty; differentiation at fertilization", "Both occur at puberty", "Determination depends on hormones; differentiation on chromosomes"], "cat": "Basics", "l": 2}, {"q": "In humans, differentiation of the primitive gonads into testes or ovaries is:", "correct": "Genetically determined", "distractors": ["Determined by testosterone", "Determined by AMH", "Determined by DHT"], "cat": "Basics", "l": 2}, {"q": "A fetus with no testicular tissue develops:", "correct": "Along female lines", "distractors": ["Along male lines", "Neither male nor female structures", "Both male and female external genitalia"], "cat": "Basics", "l": 2}, {"q": "At the sixth week of uterine life, the gonads of an XY embryo are:", "correct": "Undifferentiated", "distractors": ["Already testes", "Already ovaries", "Absent"], "cat": "Gonad Differentiation", "l": 2}, {"q": "In which cells is the SRY gene expressed to trigger testis development?", "correct": "Urogenital ridge cells", "distractors": ["Sertoli cells", "Leydig cells", "Adrenal cortical cells"], "cat": "Gonad Differentiation", "l": 2}, {"q": "What is the role of SRY protein in duct differentiation?", "correct": "It induces expression of the gene for AMH", "distractors": ["It directly converts testosterone to DHT", "It stimulates FSH release", "It forms the Wolffian ducts"], "cat": "Ducts", "l": 2}, {"q": "In a normal male fetus, Wolffian ducts persist because of ___ and Müllerian ducts regress because of ___.", "correct": "Testosterone; AMH", "distractors": ["AMH; testosterone", "DHT; AMH", "Testosterone; DHT"], "cat": "Ducts", "l": 2}, {"q": "Why do the Wolffian ducts regress in a normal female fetus?", "correct": "Absence of testosterone", "distractors": ["Presence of AMH", "Presence of SRY", "Presence of DHT"], "cat": "Ducts", "l": 2}, {"q": "Why do the Müllerian ducts persist in a normal female fetus?", "correct": "Absence of AMH", "distractors": ["Presence of testosterone", "Presence of DHT", "Presence of SRY"], "cat": "Ducts", "l": 2}, {"q": "According to the figure, the urogenital sinus forms which structure in the male?", "correct": "The urethra", "distractors": ["The vas deferens", "The epididymis", "The seminal vesicle"], "cat": "Ducts", "l": 2}, {"q": "According to the figure, the fused Müllerian ducts form the:", "correct": "Uterus", "distractors": ["Urethra", "Outer vagina", "Ovaries"], "cat": "Ducts", "l": 2}, {"q": "According to the figure, the mesonephric duct forms which male structure?", "correct": "The vas deferens", "distractors": ["The uterine tube", "The ovary", "The uterus"], "cat": "Ducts", "l": 2}, {"q": "Which timing is shown in the figure for duct differentiation?", "correct": "Male 7–8 weeks; female 8–9 weeks", "distractors": ["Male 8–9 weeks; female 7–8 weeks", "Male 5–6 weeks; female 8–9 weeks", "Both sexes at 5–6 weeks"], "cat": "Ducts", "l": 2}, {"q": "At the sexually indifferent stage (5–6 weeks) the embryo has:", "correct": "Gonadal ridge, both duct systems, and a cloaca", "distractors": ["Only Wolffian ducts", "Only Müllerian ducts", "Fully formed testes"], "cat": "Ducts", "l": 2}, {"q": "Which structures are labelled in the male tract at birth in the figure?", "correct": "Seminal vesicle, prostate gland, bulbourethral gland, vas deferens, epididymis", "distractors": ["Uterine tube, ovary, uterus, hymen, vestibule", "Seminal vesicle, uterus, hymen, epididymis", "Prostate gland, vagina, ovary, vas deferens"], "cat": "Ducts", "l": 2}, {"q": "Which structures are labelled in the female tract at birth in the figure?", "correct": "Uterine tube, ovary, uterus, vagina, hymen, vestibule", "distractors": ["Uterine tube, prostate gland, hymen, vestibule", "Ovary, seminal vesicle, uterus, vagina", "Uterus, vas deferens, hymen, epididymis"], "cat": "Ducts", "l": 2}, {"q": "Where is testosterone converted to DHT?", "correct": "In target tissue", "distractors": ["In the Sertoli cells", "In the pituitary", "In the adrenal cortex only"], "cat": "External Genitalia", "l": 2}, {"q": "External masculinization occurs:", "correct": "Somewhat later than duct differentiation, mainly under DHT", "distractors": ["Before duct differentiation, under AMH", "At the same time, under inhibin B", "Only after puberty, under LH"], "cat": "External Genitalia", "l": 2}, {"q": "Which statement about androgens and estrogens is correct?", "correct": "Both are secreted in both sexes but in different proportions", "distractors": ["Androgens are secreted only by the testes", "Estrogens are secreted only by the ovaries", "Both are secreted only after puberty"], "cat": "Hormones General", "l": 2}, {"q": "Where are some androgens converted to estrogens?", "correct": "In fat and other extragonadal, extra-adrenal tissues", "distractors": ["Only in the ovary", "Only in the anterior pituitary", "Only in the uterus"], "cat": "Hormones General", "l": 2}, {"q": "The secretory and gametogenic functions of the gonads depend on:", "correct": "FSH and LH from the anterior pituitary", "distractors": ["AMH from the hypothalamus", "DHEA from the adrenal", "Thyroid hormone"], "cat": "Hormonal Control", "l": 2}, {"q": "Which cell types are shown in the testis in the feedback figure?", "correct": "Leydig and Sertoli cells", "distractors": ["Theca interna and granulosa cells", "Sertoli and granulosa cells", "Leydig and theca interna cells"], "cat": "Hormonal Control", "l": 2}, {"q": "Which statement about gonadal aging is correct?", "correct": "Testicular function declines slowly with viable gametes persisting; ovarian function regresses and cycles cease", "distractors": ["Both decline sharply at 50", "Testes stop gamete production at 50", "Ovaries keep cycling into old age"], "cat": "Hormonal Control", "l": 2}, {"q": "Which cell types are shown in the ovary in the feedback figure?", "correct": "Theca interna and granulosa cells", "distractors": ["Leydig and Sertoli cells", "Leydig and granulosa cells", "Sertoli and theca interna cells"], "cat": "Hormonal Control", "l": 2}, {"q": "Male sexual behavior in some species is attributed to:", "correct": "Male hormones acting on the brain in early development", "distractors": ["Adrenal DHEA at age 25", "Estrogen in adolescence", "Inhibin B in adulthood"], "cat": "Hormonal Control", "l": 2}, {"q": "Which describes plasma testosterone in males over life?", "correct": "Fetal and neonatal bursts, low prepubertal levels, pubertal rise, then slow senescent decline", "distractors": ["Steady rise from birth to old age", "High prepubertal levels, low adult levels", "Peak at menopause"], "cat": "Puberty", "l": 2}, {"q": "After the neonatal burst, the Leydig cells:", "correct": "Become quiescent until puberty", "distractors": ["Keep high output", "Degenerate permanently", "Start secreting AMH"], "cat": "Puberty", "l": 2}, {"q": "Which sequence of pubertal events in girls is correct?", "correct": "Thelarche, pubarche, menarche", "distractors": ["Menarche, thelarche, pubarche", "Pubarche, menarche, thelarche", "Menarche, pubarche, thelarche"], "cat": "Puberty", "l": 2}, {"q": "The initial menstrual periods are generally:", "correct": "Anovulatory", "distractors": ["Ovulatory", "Absent for 5 years", "Painless in all girls"], "cat": "Puberty", "l": 2}, {"q": "Removal of the gonads between birth and puberty causes:", "correct": "Only a small increase in gonadotropin secretion", "distractors": ["A large increase as in adults", "A fall in gonadotropins", "No change of any kind"], "cat": "Puberty", "l": 2}, {"q": "A slow increase in estrogen and androgen secretion occurs at ages:", "correct": "7 to 10", "distractors": ["1 to 3", "14 to 18", "20 to 25"], "cat": "Puberty", "l": 2}, {"q": "At what ages does adrenarche occur in boys?", "correct": "10–12 years", "distractors": ["8–10 years", "12–15 years", "6–8 years"], "cat": "Puberty", "l": 2}, {"q": "DHEA values peak at about:", "correct": "Age 25 in women, slightly later in men", "distractors": ["Age 8 in girls", "Age 52 in women", "Age 14 in boys"], "cat": "Puberty", "l": 2}, {"q": "The rise in adrenal androgens appears to be due to increased activity of:", "correct": "17α-hydroxylase", "distractors": ["Anti-Müllerian hormone", "Inhibin B", "Aromatase in the ovary"], "cat": "Puberty", "l": 2}, {"q": "Menopause is associated with and probably caused by:", "correct": "A decline in the number of primordial follicles", "distractors": ["Excess progesterone", "A rise in inhibin B", "A fall in FSH"], "cat": "Menopause", "l": 2}, {"q": "After menopause, small amounts of estrogen arise from:", "correct": "Aromatization of androstenedione in peripheral tissues", "distractors": ["Ovarian secretion of 17β-estradiol", "Sertoli cell secretion", "Progesterone in the corpus luteum"], "cat": "Menopause", "l": 2}, {"q": "After menopause the uterus and vagina:", "correct": "Gradually become atrophic", "distractors": ["Enlarge", "Are unchanged", "Secrete more progesterone"], "cat": "Menopause", "l": 2}, {"q": "After menopause, plasma FSH is:", "correct": "High, due to reduced negative feedback", "distractors": ["Low, due to increased feedback", "Absent", "Unchanged"], "cat": "Menopause", "l": 2}, {"q": "After menopause, plasma LH is:", "correct": "Moderately high", "distractors": ["Absent", "Very low", "Exactly as in the follicular phase"], "cat": "Menopause", "l": 2}, {"q": "Perimenopause can last:", "correct": "Up to 10 years", "distractors": ["Exactly 1 year", "Up to 40 years", "Only 1 month"], "cat": "Menopause", "l": 2}, {"q": "Which is NOT associated with the onset of menopause?", "correct": "Increased ovarian secretion of progesterone", "distractors": ["Hot flushes", "Night sweats", "Increased risk of osteoporosis"], "cat": "Menopause", "l": 2}, {"q": "Hot flushes are said to occur in about:", "correct": "75% of menopausal women", "distractors": ["25% of menopausal women", "50% of menopausal women", "100% of menopausal women"], "cat": "Menopause", "l": 2}, {"q": "An XY fetus has testes that secrete neither AMH nor testosterone. What is expected?", "correct": "Müllerian ducts persist, Wolffian ducts regress, and the external genitalia are female-type", "distractors": ["Wolffian ducts persist, Müllerian ducts regress, and the external genitalia are male-type", "Both duct systems persist, and the external genitalia are male-type with a penis and scrotum", "Both duct systems regress, and no external genitalia of either type develop at all"], "cat": "Ducts", "l": 3}, {"q": "An XY fetus has normal AMH secretion but no testosterone. What happens to the ducts?", "correct": "Müllerian ducts degenerate under AMH, and Wolffian ducts regress without testosterone", "distractors": ["Müllerian ducts persist because AMH is absent, and Wolffian ducts persist as well as normal", "Only the Wolffian ducts persist, since AMH stimulates their differentiation in the male fetus", "Only the Müllerian ducts persist, because testosterone is required to make them regress"], "cat": "Ducts", "l": 3}, {"q": "An XY fetus has normal testosterone but lacks AMH. What is expected?", "correct": "Wolffian ducts differentiate, and Müllerian ducts also persist because nothing degenerates them", "distractors": ["Wolffian ducts regress, and Müllerian ducts persist as in the normal female fetus", "Both duct systems regress, because AMH is needed for the persistence of every duct", "Müllerian ducts regress, because testosterone alone is enough to degenerate them"], "cat": "Ducts", "l": 3}, {"q": "A fetus has normal testosterone but cannot convert it to DHT. Which is expected?", "correct": "Wolffian derivatives form, but penis, scrotum, and prostate development is impaired", "distractors": ["Müllerian ducts persist and Wolffian ducts regress, giving a female internal tract", "Wolffian derivatives fail to form, but the penis and scrotum develop completely normally", "The testes fail to develop, because DHT is required for SRY expression in the ridge"], "cat": "External Genitalia", "l": 3}, {"q": "According to the flow chart, which structure develops under DHT rather than by Wolffian transformation?", "correct": "The prostate", "distractors": ["The vas deferens", "The epididymis", "The ejaculatory duct"], "cat": "External Genitalia", "l": 3}, {"q": "Which pairing of cell and product is correct in the fetal testis?", "correct": "Sertoli cells secrete AMH; Leydig cells secrete testosterone", "distractors": ["Sertoli cells secrete testosterone; Leydig cells secrete AMH", "Sertoli cells secrete DHT; Leydig cells secrete the SRY protein", "Sertoli cells secrete FSH; Leydig cells secrete LH into the blood"], "cat": "Ducts", "l": 3}, {"q": "Which set correctly lists the Müllerian-duct derivatives in the female?", "correct": "Uterine tubes, uterus, and inner vagina", "distractors": ["Uterine tubes, uterus, urethra, and outer vagina", "Ovaries, uterus, and the whole vagina", "Uterus, labia majora, and clitoris"], "cat": "Ducts", "l": 3}, {"q": "According to the figure, what does the urogenital sinus form?", "correct": "Male: the urethra; female: the urethra and lower vagina", "distractors": ["Male: the vas deferens; female: the uterus and uterine tubes", "Male: the prostate only; female: the ovaries and uterine tubes", "Male: the urethra and epididymis; female: the outer vagina only"], "cat": "Ducts", "l": 3}, {"q": "From which tissue does the outer part of the vagina arise?", "correct": "Other structures at the body surface", "distractors": ["The fused Müllerian ducts", "The persisting Wolffian ducts", "The developing ovary itself"], "cat": "External Genitalia", "l": 3}, {"q": "A fetus carries a Y chromosome but has no functioning testicular tissue. Genital development would be:", "correct": "Female, because male genitalia need a functional, secreting testis", "distractors": ["Male, because the Y chromosome alone directs the genitalia to form", "Absent, because no gonad of any kind can exist without a testis", "Both male and female, because both duct systems would persist"], "cat": "Basics", "l": 3}, {"q": "Which statement best contrasts genotype with the sexual phenotype?", "correct": "Genotype is set at fertilization; the phenotype develops later under gonadal hormone control", "distractors": ["Both are set by hormones at the time of puberty in each individual", "Genotype develops after the phenotype, as the ducts direct the chromosomes", "Both are fixed at the seventh week, when the SRY gene is first expressed"], "cat": "Basics", "l": 3}, {"q": "Which statement is correct for a normal XX fetus?", "correct": "Ovaries form, Müllerian derivatives persist, and Wolffian ducts regress", "distractors": ["Testes form, Müllerian ducts regress, and Wolffian ducts persist", "Ovaries form, and both duct systems persist until puberty", "No gonads form until the pituitary gonadotropins act at puberty"], "cat": "Basics", "l": 3}, {"q": "With normal meiosis, the probability that a zygote is XX is about:", "correct": "50%", "distractors": ["25%", "75%", "100%"], "cat": "Sex Determination", "l": 3}, {"q": "In the notation 44XX, what does the '44' represent?", "correct": "The autosomes, which with the two sex chromosomes total 46", "distractors": ["The two X chromosomes, doubled after fertilization occurs", "The number of polar bodies formed during oocyte meiosis", "The total chromosome count including the sex chromosomes"], "cat": "Sex Determination", "l": 3}, {"q": "Which chain of events correctly leads to a male?", "correct": "Y present → SRY expressed at week 7 → testes → AMH and testosterone → male ducts and genitalia", "distractors": ["Y absent → SRY expressed at week 7 → testes → ovaries regress → male genitalia", "XX zygote → AMH → Wolffian ducts persist → penis forms under estrogen", "Y present → estrogen secretion → ovaries → Müllerian ducts persist → female genitalia"], "cat": "Sex Determination", "l": 3}, {"q": "At which step is the chromosome number halved from 46 to 23 in spermatogenesis?", "correct": "During the first meiotic division", "distractors": ["During the second meiotic division", "At fertilization of the ovum", "During maturation of spermatids into sperm"], "cat": "Gametogenesis", "l": 3}, {"q": "What is the total chromosome count in the four sperm cells from one primary spermatocyte?", "correct": "92", "distractors": ["46", "184", "23"], "cat": "Gametogenesis", "l": 3}, {"q": "Which statement about polar bodies is correct?", "correct": "The second polar body forms only after sperm entry triggers the second meiotic division", "distractors": ["Both polar bodies form before fertilization, and both persist as functional gametes", "The second polar body carries 46 chromosomes, like the parent primary oocyte", "The two polar bodies fuse with the sperm nucleus to form the zygote"], "cat": "Gametogenesis", "l": 3}, {"q": "At which step does the oocyte line first contain 23 chromosomes per cell?", "correct": "After the first meiotic division, giving a secondary oocyte and first polar body", "distractors": ["Only after fertilization, when the second polar body is produced by division", "Only after the second meiotic division, once the zygote has formed", "Never, since it stays at 46 chromosomes until sperm and ovum fuse"], "cat": "Gametogenesis", "l": 3}, {"q": "Why is the timing of SRY expression significant?", "correct": "The ridge is undifferentiated until week 6; SRY in week 7 switches it toward testis formation", "distractors": ["SRY acts at fertilization, before the urogenital ridge has developed in the embryo", "SRY acts only at puberty, when gonadotropins first activate the fetal testes", "SRY acts after the ovaries have formed, converting them into testes in the male"], "cat": "Gonad Differentiation", "l": 3}, {"q": "In the female feedback figure, which signals from the ovary act on the pituitary or hypothalamus?", "correct": "Estrogen and inhibin B", "distractors": ["Testosterone and AMH", "GnRH and LH", "FSH and DHEA"], "cat": "Hormonal Control", "l": 3}, {"q": "Why does gonadectomy before puberty raise gonadotropins only slightly?", "correct": "Gonadotropin secretion is not being held in check by gonadal hormones at that age", "distractors": ["The pituitary gland cannot secrete gonadotropins until the onset of adolescence", "The adrenal cortex takes over by secreting FSH and LH in the absence of gonads", "The Leydig cells become hyperactive and release large quantities of inhibin B"], "cat": "Hormonal Control", "l": 3}, {"q": "Which menopausal change is a direct consequence of reduced negative feedback?", "correct": "A rise in FSH, with moderately raised LH", "distractors": ["Atrophy of the uterus and vagina", "A decline in the number of primordial follicles", "A fall in progesterone and 17β-estradiol secretion"], "cat": "Hormonal Control", "l": 3}, {"q": "In Figure 22–8, during which period is plasma testosterone close to zero in males?", "correct": "The prepubertal period", "distractors": ["The fetal period", "The neonatal period", "The adult period"], "cat": "Puberty", "l": 3}, {"q": "Which statement about Figure 22–8 is correct?", "correct": "The adult level exceeds the fetal and neonatal bursts and declines gradually in senescence", "distractors": ["The neonatal burst is the highest testosterone level reached at any time in life", "Testosterone levels fall to zero in senescence, when the Leydig cells stop functioning", "Prepubertal testosterone levels are equal to the levels seen in the adult male"], "cat": "Puberty", "l": 3}, {"q": "A 9-year-old girl shows rising adrenal androgen output. This is best described as:", "correct": "Adrenarche within the expected range for girls (8–10 years)", "distractors": ["Delayed adrenarche, which normally begins at 6–8 years in girls", "A finding expected only in boys, in whom adrenarche occurs at 8–10 years", "Perimenopause, caused by early decline of the primordial follicles"], "cat": "Puberty", "l": 3}, {"q": "Which statement comparing girls and boys is correct?", "correct": "Both adrenarche and puberty begin earlier in girls than in boys", "distractors": ["Both adrenarche and puberty begin earlier in boys than in girls", "Adrenarche occurs at the same ages in both sexes, but puberty differs", "Puberty occurs at identical ages in girls and boys, but adrenarche differs"], "cat": "Puberty", "l": 3}, {"q": "Which statement best gives the strict definition of puberty?", "correct": "The period when gonadal endocrine and gametogenic functions first reach the point where reproduction is possible", "distractors": ["The period of breast development, which is followed by growth of axillary and pubic hair", "The onset of the rise in adrenal androgen secretion at 8–10 years in girls", "The period ending with the first menstrual period, after which regular ovulation begins"], "cat": "Puberty", "l": 3}, {"q": "Which order of female puberty events is correct?", "correct": "Thelarche, pubarche, menarche, then regular ovulation about a year later", "distractors": ["Menarche, thelarche, pubarche, then regular ovulation about a year later", "Pubarche, thelarche, regular ovulation, then menarche about a year later", "Regular ovulation, menarche, thelarche, then pubarche about a year later"], "cat": "Puberty", "l": 3}, {"q": "Which statement about DHEA is correct?", "correct": "It peaks at about age 25 in women, slightly later in men, then declines slowly", "distractors": ["It peaks at adrenarche in childhood and then remains constant throughout adult life", "It peaks at the time of menopause, when ovarian androgen secretion is greatest", "It is secreted in women only, and is absent from the plasma of adult men"], "cat": "Puberty", "l": 3}, {"q": "Which change appears to account for the adrenal androgen rise of adrenarche?", "correct": "Increased activity of 17α-hydroxylase", "distractors": ["Increased secretion of anti-Müllerian hormone", "Decreased secretion of inhibin B by the gonads", "Increased aromatase activity in the ovary"], "cat": "Puberty", "l": 3}, {"q": "A 51-year-old woman has irregular menses and night sweats. Which hormonal pattern is expected?", "correct": "FSH rises before LH, and estrogen, progesterone, and inhibins fall", "distractors": ["LH rises before FSH, and estrogen and progesterone rise steadily", "Estrogen and progesterone stay high, and inhibin B suppresses FSH", "FSH and LH both fall, as negative feedback from estrogen increases"], "cat": "Menopause", "l": 3}, {"q": "Which hormonal profile characterizes a postmenopausal woman?", "correct": "Low estradiol and progesterone, high FSH, and moderately high LH", "distractors": ["High estradiol and progesterone, low FSH, and moderately low LH", "Low FSH and LH, because ovarian hormones are strongly suppressing the pituitary", "High progesterone, high FSH, and low LH, because the ovaries are still cycling"], "cat": "Menopause", "l": 3}, {"q": "According to the source, what initiates hot flushes?", "correct": "An estrogen-sensitive event in the hypothalamus that also triggers LH release", "distractors": ["Direct heat production by the atrophic uterus and vagina after menopause", "An excess of ovarian progesterone acting on the peripheral blood vessels", "A surge of adrenal DHEA that occurs each night in postmenopausal women"], "cat": "Menopause", "l": 3}, {"q": "What is the main source of estrogen after menopause?", "correct": "Aromatization of androstenedione in peripheral tissues, in small amounts", "distractors": ["Continued ovarian secretion of 17β-estradiol in appreciable quantities", "Progesterone secreted by the corpus luteum in each monthly cycle", "Sertoli-cell-like cells that remain in the atrophic ovary"], "cat": "Menopause", "l": 3}, {"q": "Which statement about age-related gonadal change is correct?", "correct": "Ovarian follicles decline precipitously at menopause, whereas testicular function declines slowly and gametes persist", "distractors": ["Testes stop producing viable gametes at about 50, exactly as the ovaries stop at menopause", "Andropause is clearly established and matches menopause in timing and hormonal pattern", "Ovarian follicle numbers stay constant with age, while testicular function falls abruptly"], "cat": "Menopause", "l": 3}, {"q": "Which set lists diseases whose risk rises with the onset of menopause?", "correct": "Osteoporosis, ischemic heart disease, and renal disease", "distractors": ["Osteoporosis, thelarche, and adrenal insufficiency", "Ischemic heart disease, pubarche, and hyperthyroidism", "Renal disease, menarche, and delayed puberty"], "cat": "Menopause", "l": 3}, {"q": "Hot flushes occur in about 75% of menopausal women and may continue intermittently for as long as:", "correct": "40 years", "distractors": ["1 year", "10 years", "2 months"], "cat": "Menopause", "l": 3}, {"q": "Which statement about gonadotropin patterns is correct?", "correct": "Male secretion is noncyclic, whereas postpubertal female secretion is orderly and sequential", "distractors": ["Both sexes show a cyclic, sequential pattern of gonadotropin secretion after puberty", "Both sexes show a noncyclic pattern, and menstruation depends on estrogen alone", "Female secretion is noncyclic, whereas male secretion is orderly and sequential"], "cat": "Hormonal Control", "l": 3}, {"q": "Which evidence indicates early sexual differentiation of the brain?", "correct": "Male sexual behavior and gonadotropin pattern result from male hormones acting on the brain in early development", "distractors": ["Estrogen deficiency at menopause changes hypothalamic release of LH in women later in life", "Adrenal DHEA peaks at about age 25, coordinating sexual behavior in both sexes", "Inhibin B secretion in adulthood determines the pattern of gonadotropin release"], "cat": "Hormonal Control", "l": 3}];
+</script>
+<script>
+/* ============ TAB NAVIGATION ============ */
+const tabs = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    tabs.forEach(b=>b.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ============ MINI MAP ============ */
+const MAP_NODES = [
+  {t:"Reproduction", body:"Reproduction is the set of processes by which the male gamete (sperm) and female gamete (ovum) develop, grow, and unite to create a genetically unique offspring. The resulting zygote develops into an embryo, then a fetus, inside the maternal uterus. The term also covers the birth of that fetus."},
+  {t:"Gametogenesis", body:"Sperm and ova are produced by meiosis. A primary spermatocyte (46 chromosomes) undergoes two meiotic divisions to yield four sperm cells (23 chromosomes each). A primary oocyte undergoes an asymmetric meiosis, producing one large secondary oocyte plus polar bodies; the second meiotic division completes only after fertilization, yielding a 46-chromosome zygote."},
+  {t:"Sex Determination", body:"Genetic sex is fixed at fertilization. Females carry two X chromosomes; males carry one X and one Y. The Y chromosome's presence drives testis formation; its absence allows ovary formation — this single chromosome accounts for most male/female developmental differences."},
+  {t:"Gonad Differentiation", body:"Both testes and ovaries arise from the same undifferentiated urogenital (gonadal) ridge, present up to week 6. In genetic males, the SRY gene on the Y chromosome switches on in week 7 and drives testis formation. Without SRY, the ridge instead becomes an ovary."},
+  {t:"Duct Differentiation", body:"Before the gonads are functional, the fetus has both Wolffian and Müllerian duct systems. Fetal testosterone preserves and matures the Wolffian ducts into the epididymis, vas deferens, and seminal vesicles. Without testosterone, Wolffian ducts regress and Müllerian ducts instead become the uterus, fallopian tubes, and inner vagina."},
+  {t:"AMH & External Genitalia", body:"Sertoli cells in the fetal testis secrete anti-Müllerian hormone (AMH, formerly MIS), which actively degenerates the Müllerian ducts in males. Externally, dihydrotestosterone (DHT) — converted from testosterone in target tissue — forms the penis and scrotum; without it, female external genitalia and the outer vagina develop by default."},
+  {t:"Hormonal Regulation (HPG axis)", body:"Both sexes secrete androgens (masculinizing) and estrogens (feminizing) from the gonads and adrenal cortex, just in different proportions. FSH and LH from the anterior pituitary drive gonadal hormone secretion and gametogenesis; sex hormones and inhibin B feed back to suppress gonadotropin release. Gonadotropin secretion is noncyclic in men but cyclic in postpubertal women."},
+  {t:"Puberty", body:"After a prenatal and neonatal testosterone burst, the gonads stay quiescent until pituitary gonadotropins activate them at puberty (girls 8–13, boys 9–14). In girls, thelarche (breast development) comes first, then pubarche (axillary/pubic hair), then menarche (first period) — early cycles are usually anovulatory. Adrenarche, a separate rise in adrenal androgens, occurs around 8–10 (girls) and 10–12 (boys)."},
+  {t:"Menopause", body:"With advancing age, ovaries become unresponsive to gonadotropins as primordial follicles decline sharply — average onset age 52, preceded by perimenopause (ages 45–55, up to 10 years, FSH rising before LH). Estrogen and progesterone secretion falls, the uterus and vagina atrophy, and FSH/LH rise due to reduced feedback. About 75% of women experience hot flushes, sometimes for decades; a comparable 'male menopause' is not clearly established."},
+];
+const mapNodesEl = document.getElementById('mapNodes');
+const mapRevealEl = document.getElementById('mapReveal');
+MAP_NODES.forEach((n,i)=>{
+  const b = document.createElement('button');
+  b.className='map-node';
+  b.textContent=n.t;
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.map-node').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    mapRevealEl.innerHTML = `<h4>${n.t}</h4><p>${n.body}</p>`;
+  });
+  mapNodesEl.appendChild(b);
+});
+
+/* ============ TOPICS / GLOSSARY ============ */
+const TOPICS = [
+  {cat:"Basics", t:"Reproduction", d:"The processes by which sperm and ovum develop, grow, and unite to form genetically unique offspring, plus the birth of the resulting fetus."},
+  {cat:"Basics", t:"Gamete", d:"A reproductive cell — the sperm (male) or the ovum (female)."},
+  {cat:"Basics", t:"Zygote", d:"The new cell formed when a sperm fertilizes an ovum; the first stage of the new organism."},
+  {cat:"Basics", t:"Embryo / Fetus", d:"Successive stages the zygote develops through inside the maternal uterus."},
+  {cat:"Basics", t:"Gonad", d:"The organ that produces gametes: testis in the male, ovary in the female."},
+  {cat:"Sex Determination", t:"Genotype", d:"The complete genetic composition of an individual."},
+  {cat:"Sex Determination", t:"Sex determination", d:"Fixing of genetic sex at the moment of fertilization, via the sex chromosomes."},
+  {cat:"Sex Determination", t:"X chromosome", d:"The larger sex chromosome; present as XX in females, one copy in males."},
+  {cat:"Sex Determination", t:"Y chromosome", d:"The smaller sex chromosome; its presence (XY) drives male development."},
+  {cat:"Gonad Differentiation", t:"Sex differentiation", d:"The multiple processes by which the fetal reproductive system develops, following sex determination."},
+  {cat:"Gonad Differentiation", t:"Urogenital (gonadal) ridge", d:"The shared embryonic site from which both testes and ovaries derive; undifferentiated until week 6."},
+  {cat:"Gonad Differentiation", t:"SRY gene", d:"Sex-determining region of the Y chromosome; expressed in the urogenital ridge at week 7, triggers testis formation."},
+  {cat:"Ducts", t:"Wolffian duct", d:"One of two fetal duct systems; persists and matures under testosterone into the epididymis, vas deferens, seminal vesicles, and ejaculatory duct in the male; regresses in the female."},
+  {cat:"Ducts", t:"Müllerian duct", d:"The other fetal duct system; persists and becomes the uterus, fallopian tubes, and inner vagina in the female; regresses under AMH in the male."},
+  {cat:"Ducts", t:"Anti-Müllerian hormone (AMH)", d:"A protein hormone from fetal Sertoli cells (formerly called Müllerian-inhibiting substance, MIS) that causes the Müllerian ducts to degenerate."},
+  {cat:"Ducts", t:"Sertoli cells", d:"Fetal (and adult) testicular cells that secrete AMH."},
+  {cat:"Ducts", t:"Leydig cells", d:"Testicular cells that secrete testosterone."},
+  {cat:"External Genitalia", t:"Testosterone", d:"The main testicular androgen; matures the Wolffian ducts and is the precursor of DHT."},
+  {cat:"External Genitalia", t:"Dihydrotestosterone (DHT)", d:"Produced from testosterone in target tissue; drives formation of the penis, scrotum, and prostate."},
+  {cat:"Hormones General", t:"Androgens", d:"Steroid sex hormones with a masculinizing action; secreted by gonads and adrenal cortex in both sexes."},
+  {cat:"Hormones General", t:"Estrogens", d:"Steroid sex hormones with a feminizing action; secreted by gonads (mainly ovary) and, in small amounts, elsewhere, in both sexes."},
+  {cat:"Hormones General", t:"Inhibin B", d:"A gonadal polypeptide that selectively inhibits FSH secretion from the anterior pituitary."},
+  {cat:"Hormones General", t:"FSH / LH", d:"Follicle-stimulating hormone and luteinizing hormone — anterior pituitary gonadotropins that drive gonadal gametogenesis and hormone secretion."},
+  {cat:"Hormones General", t:"GnRH", d:"Gonadotropin-releasing hormone, secreted by the hypothalamus, that drives pituitary FSH/LH release."},
+  {cat:"Gametogenesis", t:"Gametogenesis", d:"Production of germ cells by the gonads — one of the two core functions of the gonads, alongside hormone secretion."},
+  {cat:"Gametogenesis", t:"Primary spermatocyte / oocyte", d:"The starting diploid (46-chromosome) germ cell in the testis or ovary, before meiosis."},
+  {cat:"Gametogenesis", t:"Crossing-over", d:"Exchange of chromosome segments between paired homologous chromosomes during the first meiotic division."},
+  {cat:"Gametogenesis", t:"Polar body", d:"A small, non-functional cell (23 chromosomes) discarded during oocyte meiosis so nearly all cytoplasm stays with the egg; polar bodies degenerate."},
+  {cat:"Puberty", t:"Adolescence / Puberty", d:"The period of final reproductive maturation; strictly, puberty is when gonadal endocrine and gametogenic function first make reproduction possible."},
+  {cat:"Puberty", t:"Thelarche", d:"The first pubertal event in girls: development of the breasts."},
+  {cat:"Puberty", t:"Pubarche", d:"Development of axillary and pubic hair during puberty."},
+  {cat:"Puberty", t:"Menarche", d:"The first menstrual period; initial cycles are usually anovulatory."},
+  {cat:"Puberty", t:"Adrenarche", d:"The onset of increased adrenal androgen secretion; girls 8–10 yr, boys 10–12 yr."},
+  {cat:"Puberty", t:"DHEA", d:"An adrenal androgen whose plasma levels peak around age 25 in women (slightly later in men), then decline slowly."},
+  {cat:"Menopause", t:"Menopause", d:"Cessation of sexual cycles as ovarian function declines with age; average onset 52 years."},
+  {cat:"Menopause", t:"Perimenopause", d:"The up-to-10-year period preceding menopause, with rising FSH (before LH), falling estrogen/progesterone/inhibins, and irregular menses."},
+  {cat:"Menopause", t:"Hot flush (hot flash)", d:"A sensation of warmth spreading from trunk to face with menopause, linked to an estrogen-sensitive hypothalamic event that also triggers LH release; occurs in ~75% of menopausal women."},
+  {cat:"Menopause", t:"Andropause", d:"A proposed 'male menopause'; testicular decline is slow and gradual, and andropause is not clearly established."},
+];
+const tpResultsEl = document.getElementById('tpResults');
+const tpSearchEl = document.getElementById('tpSearch');
+const tpCountEl = document.getElementById('tpCount');
+function tpRender(){
+  const q = tpSearchEl.value.trim().toLowerCase();
+  const filtered = TOPICS.filter(x => !q || x.t.toLowerCase().includes(q) || x.d.toLowerCase().includes(q) || x.cat.toLowerCase().includes(q));
+  tpCountEl.textContent = `${filtered.length} of ${TOPICS.length} terms`;
+  if(filtered.length===0){
+    tpResultsEl.innerHTML = '<p class="tp-empty">No terms match that search.</p>';
+    return;
+  }
+  const cats = [...new Set(filtered.map(x=>x.cat))];
+  tpResultsEl.innerHTML = cats.map(cat=>{
+    const items = filtered.filter(x=>x.cat===cat);
+    return `<div class="tp-cat-group"><h3 class="tp-cat-title">${cat}</h3><div class="tp-grid">${
+      items.map(x=>`<div class="tp-item"><div class="tp-term">${x.t}</div><div class="tp-def">${x.d}</div></div>`).join('')
+    }</div></div>`;
+  }).join('');
+}
+tpSearchEl.addEventListener('input', tpRender);
+tpRender();
+
+/* ============ FLASHCARDS ============ */
+let fcDeck = FLASHCARDS.filter(x=>x.l===1);
+let fcIndex = 0;
+const fcCard = document.getElementById('fcCard');
+const fcFrontText = document.getElementById('fcFrontText');
+const fcBackText = document.getElementById('fcBackText');
+const fcFrontTag = document.getElementById('fcFrontTag');
+const fcBackTag = document.getElementById('fcBackTag');
+const fcProgress = document.getElementById('fcProgress');
+const fcCategorySel = document.getElementById('fcCategory');
+const fcCount = document.getElementById('fcCount');
+
+const fcLevelSel = document.getElementById('fcLevel');
+function fcLevelCards(){ return FLASHCARDS.filter(x=>x.l===+fcLevelSel.value); }
+function fcCategories(){
+  return ['All', ...new Set(fcLevelCards().map(c=>c.c))];
+}
+function fcFillCategories(){
+  const prev = fcCategorySel.value;
+  fcCategorySel.innerHTML='';
+  fcCategories().forEach(c=>{
+    const o=document.createElement('option'); o.value=c; o.textContent=c;
+    fcCategorySel.appendChild(o);
+  });
+  if([...fcCategorySel.options].some(o=>o.value===prev)) fcCategorySel.value=prev;
+}
+fcFillCategories();
+
+function fcApplyFilter(){
+  const c = fcCategorySel.value;
+  fcDeck = fcLevelCards().filter(x=>c==='All' || x.c===c);
+  fcIndex = 0;
+  fcRender();
+}
+fcCategorySel.addEventListener('change', fcApplyFilter);
+
+function fcRender(){
+  if(fcDeck.length===0) return;
+  const card = fcDeck[fcIndex];
+  fcCard.classList.remove('flipped');
+  fcFrontText.textContent = card.f;
+  fcBackText.textContent = card.b;
+  fcFrontTag.textContent = 'Level '+card.l+': '+card.c;
+  fcBackTag.textContent = 'Level '+card.l+': '+card.c;
+  fcProgress.textContent = `${fcIndex+1} / ${fcDeck.length}`;
+  fcCount.textContent = `${fcLevelCards().length} cards in this level`;
+}
+fcCard.addEventListener('click',()=>fcCard.classList.toggle('flipped'));
+document.getElementById('fcNext').addEventListener('click',()=>{
+  fcIndex=(fcIndex+1)%fcDeck.length; fcRender();
+});
+document.getElementById('fcPrev').addEventListener('click',()=>{
+  fcIndex=(fcIndex-1+fcDeck.length)%fcDeck.length; fcRender();
+});
+document.getElementById('fcShuffle').addEventListener('click',()=>{
+  for(let i=fcDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcDeck[i],fcDeck[j]]=[fcDeck[j],fcDeck[i]];}
+  fcIndex=0; fcRender();
+});
+
+/* grid / browse-all view */
+const fcGridToggleBtn = document.getElementById('fcGridToggle');
+const fcStage = document.getElementById('fcStage');
+const fcGrid = document.getElementById('fcGrid');
+let gridBuilt=false;
+function buildGrid(){
+  fcGrid.innerHTML='';
+  fcLevelCards().filter(x=>fcCategorySel.value==='All' || x.c===fcCategorySel.value).forEach(card=>{
+    const d=document.createElement('div');
+    d.className='fc-mini';
+    d.innerHTML=`<span class="fc-mini-tag">${card.c}</span><div class="fc-mini-body">${card.f}</div>`;
+    d.addEventListener('click',()=>{
+      const opening = !d.classList.contains('open');
+      d.classList.toggle('open');
+      d.querySelector('.fc-mini-body').textContent = opening ? card.b : card.f;
+    });
+    fcGrid.appendChild(d);
+  });
+  gridBuilt=true;
+}
+fcGridToggleBtn.addEventListener('click',()=>{
+  const showing = fcGrid.classList.toggle('active');
+  fcStage.style.display = showing ? 'none' : 'flex';
+  fcGridToggleBtn.textContent = showing ? 'Card view' : 'Browse all';
+  if(showing && !gridBuilt) buildGrid();
+});
+function fcRefreshGrid(){
+  gridBuilt=false;
+  if(fcGrid.classList.contains('active')) buildGrid();
+}
+fcCategorySel.addEventListener('change', fcRefreshGrid);
+fcLevelSel.addEventListener('change', ()=>{
+  fcFillCategories();
+  fcApplyFilter();
+  fcRefreshGrid();
+});
+fcApplyFilter();
+
+/* ============ QUIZ ============ */
+let qzPool = QUIZ.filter(q=>q.l===1);
+let qzOrder = [];
+let qzIdx = 0;
+let qzScore = 0;
+let qzAnswered = false;
+const qzCategorySel = document.getElementById('qzCategory');
+const qzQuestionEl = document.getElementById('qzQuestion');
+const qzTagEl = document.getElementById('qzTag');
+const qzOptionsEl = document.getElementById('qzOptions');
+const qzScoreEl = document.getElementById('qzScore');
+const qzFillEl = document.getElementById('qzFill');
+const qzFeedbackEl = document.getElementById('qzFeedback');
+const qzNextBtn = document.getElementById('qzNext');
+const qzCard = document.getElementById('qzCard');
+const qzDone = document.getElementById('qzDone');
+
+const qzLevelSel = document.getElementById('qzLevel');
+function qzLevelItems(){ return QUIZ.filter(q=>q.l===+qzLevelSel.value); }
+function qzCategories(){ return ['All', ...new Set(qzLevelItems().map(q=>q.cat))]; }
+function qzFillCategories(){
+  const prev = qzCategorySel.value;
+  qzCategorySel.innerHTML='';
+  qzCategories().forEach(c=>{
+    const o=document.createElement('option'); o.value=c; o.textContent=c;
+    qzCategorySel.appendChild(o);
+  });
+  if([...qzCategorySel.options].some(o=>o.value===prev)) qzCategorySel.value=prev;
+}
+qzFillCategories();
+
+function shuffleArr(a){
+  const arr=[...a];
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+
+function qzStart(){
+  const c = qzCategorySel.value;
+  qzPool = qzLevelItems().filter(q=>c==='All' || q.cat===c);
+  qzOrder = shuffleArr(qzPool);
+  qzIdx=0; qzScore=0;
+  qzCard.style.display='block';
+  qzDone.style.display='none';
+  qzRenderQuestion();
+}
+qzCategorySel.addEventListener('change', qzStart);
+qzLevelSel.addEventListener('change', ()=>{ qzFillCategories(); qzStart(); });
+document.getElementById('qzRestart').addEventListener('click', qzStart);
+document.getElementById('qzRestart2').addEventListener('click', qzStart);
+
+function qzRenderQuestion(){
+  qzAnswered=false;
+  qzFeedbackEl.textContent='';
+  qzFeedbackEl.className='qz-feedback';
+  qzNextBtn.disabled=true;
+  const q = qzOrder[qzIdx];
+  qzTagEl.textContent = 'Level '+q.l+': '+q.cat;
+  qzQuestionEl.textContent = q.q;
+  const opts = shuffleArr([q.correct, ...q.distractors]);
+  qzOptionsEl.innerHTML='';
+  const letters=['A','B','C','D'];
+  opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='qz-opt';
+    b.dataset.opt = opt;
+    b.innerHTML = `<span class="letter">${letters[i]}</span><span>${opt}</span>`;
+    b.addEventListener('click',()=>qzSelect(b,opt,q.correct));
+    qzOptionsEl.appendChild(b);
+  });
+  qzFillEl.style.width = (100*qzIdx/qzOrder.length)+'%';
+  qzScoreEl.textContent = `Score: ${qzScore} / ${qzIdx}`;
+}
+
+function qzSelect(btn,opt,correct){
+  if(qzAnswered) return;
+  qzAnswered=true;
+  const allOpts = [...qzOptionsEl.children];
+  allOpts.forEach(o=>o.setAttribute('disabled','true'));
+  if(opt===correct){
+    btn.classList.add('correct');
+    qzFeedbackEl.textContent='Correct!';
+    qzFeedbackEl.className='qz-feedback ok';
+    qzScore++;
+  } else {
+    btn.classList.add('wrong');
+    qzFeedbackEl.textContent='Not quite.';
+    qzFeedbackEl.className='qz-feedback no';
+    allOpts.forEach(o=>{ if(o.dataset.opt===correct) o.classList.add('correct'); });
+  }
+  qzScoreEl.textContent = `Score: ${qzScore} / ${qzIdx+1}`;
+  qzNextBtn.disabled=false;
+}
+
+qzNextBtn.addEventListener('click',()=>{
+  qzIdx++;
+  if(qzIdx>=qzOrder.length){
+    qzCard.style.display='none';
+    qzDone.style.display='block';
+    document.getElementById('qzFinalScore').textContent = `${qzScore} / ${qzOrder.length}`;
+    return;
+  }
+  qzRenderQuestion();
+});
+qzStart();
+
+</script>
+<script>
+/* ============ DIAGRAM TAB SWITCHING ============ */
+const diagTabs = document.querySelectorAll('.diag-tab:not(.hpg-sex-btn)');
+const diagStages = document.querySelectorAll('.diag-stage');
+diagTabs.forEach(t=>{
+  t.addEventListener('click',()=>{
+    diagTabs.forEach(x=>x.classList.remove('active'));
+    diagStages.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('diag-'+t.dataset.diag).classList.add('active');
+  });
+});
+
+function wireDiagram(svgId, infoId, infoMap, defaultHint){
+  const svg = document.getElementById(svgId);
+  const info = document.getElementById(infoId);
+  info.innerHTML = `<p class="hint">${defaultHint}</p>`;
+  svg.querySelectorAll('.diag-node').forEach(node=>{
+    node.addEventListener('click',()=>{
+      svg.querySelectorAll('.diag-node').forEach(n=>n.classList.remove('selected'));
+      node.classList.add('selected');
+      const key = node.getAttribute('data-key');
+      const d = infoMap[key];
+      if(d){
+        info.innerHTML = `<h4>${d.t}</h4><p>${d.b}</p>`;
+      }
+    });
+  });
+}
+
+/* ---------- Diagram 1: Sex differentiation pathway ---------- */
+const SEXDIFF_INFO = {
+  xy:{t:"XY genotype", b:"The genetic starting point for male development: one X and one Y chromosome, established at fertilization."},
+  xx:{t:"XX genotype", b:"The genetic starting point for female development: two X chromosomes, established at fertilization."},
+  sry:{t:"SRY gene present", b:"A gene on the Y chromosome (sex-determining region of Y) is expressed in the urogenital ridge around week 7 and triggers testis formation."},
+  nosry:{t:"No SRY gene", b:"Without a Y chromosome there is no SRY gene, so the primitive gonad is not triggered toward testis formation."},
+  gonadM:{t:"Primordial gonad → fetal testis", b:"The undifferentiated gonad differentiates into a fetal testis, containing Sertoli cells and Leydig cells."},
+  gonadF:{t:"Primordial gonad → fetal ovary", b:"Without SRY signalling, the same undifferentiated gonad instead differentiates into a fetal ovary."},
+  sertoli:{t:"Sertoli cells", b:"Secrete anti-Müllerian hormone (AMH), which causes the Müllerian ducts to regress in males."},
+  leydig:{t:"Leydig cells", b:"Secrete testosterone, which preserves and matures the Wolffian ducts and is converted to DHT for external genitalia."},
+  amh:{t:"Anti-Müllerian hormone (AMH)", b:"Also called Müllerian-inhibiting substance (MIS). Causes degeneration of the Müllerian duct system in males."},
+  testo:{t:"Testosterone", b:"Secreted by Leydig cells. Drives Wolffian duct differentiation into epididymis, vas deferens, seminal vesicles, and ejaculatory duct."},
+  dht:{t:"Dihydrotestosterone (DHT)", b:"Formed from testosterone in target tissue. Drives development of the penis, scrotum, and prostate."},
+  mullerianReg:{t:"Müllerian ducts regress", b:"In the presence of AMH, the Müllerian duct system degenerates in the male fetus."},
+  wolffM:{t:"Wolffian ducts → male structures", b:"Under testosterone, Wolffian ducts become the epididymis, vas deferens, seminal vesicles, and ejaculatory duct."},
+  extM:{t:"Male external genitalia", b:"DHT drives development of the penis, scrotum, and prostate."},
+  noAMH:{t:"Absence of AMH", b:"Without AMH, the Müllerian ducts are not suppressed and are free to persist and differentiate."},
+  noTesto:{t:"Absence of testosterone", b:"Without testosterone, the Wolffian ducts are not maintained and regress."},
+  mullerF:{t:"Müllerian ducts → female structures", b:"In the absence of AMH, Müllerian ducts transform into the uterus, fallopian tubes, and inner vagina."},
+  wolffReg:{t:"Wolffian ducts regress", b:"Without testosterone support, the Wolffian duct system degenerates in the female fetus."},
+  extF:{t:"Female external genitalia", b:"In the absence of DHT, the outer vagina and female external genitalia develop by default."},
+};
+
+function box(x,y,w,h,fill,stroke,rx=8){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;}
+function label(x,y,text,size=11.5,color="#1B211D",weight=600,anchor="middle"){
+  return `<text x="${x}" y="${y}" font-size="${size}" font-weight="${weight}" fill="${color}" text-anchor="${anchor}" font-family="Inter,sans-serif">${text}</text>`;
+}
+function arrow(x1,y1,x2,y2,color="#8B948A"){
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="1.6" marker-end="url(#arrowhead)"/>`;
+}
+
+const sexDiffSVG = `
+<svg viewBox="0 0 720 560" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8B948A"/></marker></defs>
+<!-- Male column -->
+<g class="diag-node" data-key="xy">${box(60,15,180,42,'#EAF0E6','#1F4B43')}${label(150,41,'XY chromosomes')}</g>
+<g class="diag-node" data-key="sry">${box(60,80,180,42,'#F6EEDA','#C99A3B')}${label(150,106,'SRY gene present')}</g>
+<g class="diag-node" data-key="gonadM">${box(40,145,220,46,'#EAF0E6','#1F4B43')}${label(150,168,'Primordial gonad')}${label(150,184,'→ fetal testis',10.5,'#4B564E',500)}</g>
+${arrow(150,57,150,80)}${arrow(150,122,150,145)}
+<g class="diag-node" data-key="sertoli">${box(20,215,120,40,'#FFFFFF','#DCE3D8')}${label(80,239,'Sertoli cells')}</g>
+<g class="diag-node" data-key="leydig">${box(160,215,120,40,'#FFFFFF','#DCE3D8')}${label(220,239,'Leydig cells')}</g>
+${arrow(110,191,80,215)}${arrow(190,191,220,215)}
+<g class="diag-node" data-key="amh">${box(10,278,130,38,'#F7E9EA','#A24E53')}${label(75,301,'AMH')}</g>
+<g class="diag-node" data-key="testo">${box(160,278,130,38,'#F7E9EA','#A24E53')}${label(225,301,'Testosterone')}</g>
+${arrow(80,255,75,278)}${arrow(220,255,225,278)}
+<g class="diag-node" data-key="dht">${box(160,335,130,38,'#F7E9EA','#A24E53')}${label(225,358,'→ DHT')}</g>
+${arrow(225,316,225,335)}
+<g class="diag-node" data-key="mullerianReg">${box(0,395,150,42,'#EAF0E6','#1F4B43')}${label(75,415,'Müllerian ducts')}${label(75,430,'regress',10,'#4B564E',500)}</g>
+<g class="diag-node" data-key="wolffM">${box(160,395,150,42,'#EAF0E6','#1F4B43')}${label(235,415,'Wolffian ducts →')}${label(235,430,'epididymis, vas def.',9.5,'#4B564E',500)}</g>
+${arrow(75,316,75,395)}
+<path d="M290,300 C345,320 345,410 310,416" fill="none" stroke="#8B948A" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+<g class="diag-node" data-key="extM">${box(120,455,190,42,'#F6EEDA','#C99A3B')}${label(215,481,'Penis · scrotum · prostate')}</g>
+<path d="M160,354 C95,380 95,470 120,476" fill="none" stroke="#8B948A" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+<!-- Female column -->
+<g class="diag-node" data-key="xx">${box(480,15,180,42,'#F7E9EA','#A24E53')}${label(570,41,'XX chromosomes')}</g>
+<g class="diag-node" data-key="nosry">${box(480,80,180,42,'#F6EEDA','#C99A3B')}${label(570,101,'No SRY gene')}</g>
+<g class="diag-node" data-key="gonadF">${box(460,145,220,46,'#F7E9EA','#A24E53')}${label(570,168,'Primordial gonad')}${label(570,184,'→ fetal ovary',10.5,'#4B564E',500)}</g>
+${arrow(570,57,570,80)}${arrow(570,122,570,145)}
+<g class="diag-node" data-key="noAMH">${box(440,215,130,40,'#FFFFFF','#DCE3D8')}${label(505,239,'Absence of AMH')}</g>
+<g class="diag-node" data-key="noTesto">${box(580,215,130,40,'#FFFFFF','#DCE3D8')}${label(645,239,'Absence of')}${label(645,251,'testosterone',9,'#4B564E',500)}</g>
+${arrow(540,191,505,215)}${arrow(600,191,645,215)}
+<g class="diag-node" data-key="mullerF">${box(420,278,160,44,'#EAF0E6','#1F4B43')}${label(500,299,'Müllerian → uterus,')}${label(500,314,'tubes, inner vagina',9.5,'#4B564E',500)}</g>
+<g class="diag-node" data-key="wolffReg">${box(600,278,120,44,'#EAF0E6','#1F4B43')}${label(660,299,'Wolffian ducts')}${label(660,314,'regress',9.5,'#4B564E',500)}</g>
+${arrow(505,255,500,278)}${arrow(645,255,660,278)}
+<g class="diag-node" data-key="extF">${box(460,355,220,42,'#F6EEDA','#C99A3B')}${label(570,381,'Outer vagina · female external genitalia')}</g>
+<path d="M660,255 C700,300 650,335 605,355" fill="none" stroke="#8B948A" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+</svg>`;
+
+document.getElementById('svgSexDiff').innerHTML = sexDiffSVG;
+wireDiagram('svgSexDiff','infoSexDiff', SEXDIFF_INFO, 'Click any box — trace the male pathway (left) or female pathway (right) from chromosomes to genitalia.');
+
+/* ---------- Diagram 2: HPG feedback loop ---------- */
+const HPG_INFO = {
+  hypo:{t:"Hypothalamus", b:"Secretes GnRH (gonadotropin-releasing hormone), which drives anterior pituitary gonadotropin release."},
+  pit:{t:"Anterior pituitary", b:"Releases FSH and LH in response to GnRH. These gonadotropins act on the gonads."},
+  gonadF2:{t:"Ovary", b:"Theca interna and granulosa cells respond to FSH/LH, producing estrogens, androgens, and inhibin B."},
+  gonadM2:{t:"Testis", b:"Leydig and Sertoli cells respond to LH and FSH respectively, producing testosterone and inhibin B."},
+  estro:{t:"Estrogen", b:"Feeds back (mostly negatively, with a positive surge mid-cycle) on the hypothalamus and pituitary to regulate GnRH/FSH/LH."},
+  inhibinF:{t:"Inhibin B (ovary)", b:"Selectively suppresses FSH secretion from the anterior pituitary."},
+  testo2:{t:"Testosterone", b:"Feeds back negatively on the hypothalamus and pituitary, limiting further LH/FSH release."},
+  inhibinM:{t:"Inhibin B (testis)", b:"Secreted by Sertoli cells; selectively suppresses FSH secretion."},
+  effF:{t:"Estrogenic effects", b:"Includes endometrial growth, breast development, and other feminizing actions throughout the body."},
+  effM:{t:"Androgenic / anabolic effects", b:"Includes development of male secondary sex characteristics and anabolic (tissue-building) actions."},
+};
+function hpgSVG(sex){
+  const isF = sex==='female';
+  const gonadLabel = isF ? 'Ovary' : 'Testis';
+  const gonadKey = isF ? 'gonadF2':'gonadM2';
+  const hormoneLabel = isF ? 'Estrogen':'Testosterone';
+  const hormoneKey = isF ? 'estro':'testo2';
+  const inhibinKey = isF? 'inhibinF':'inhibinM';
+  const effKey = isF? 'effF':'effM';
+  const effLabel = isF? 'Estrogenic effects':'Androgenic / anabolic effects';
+  return `
+  <svg viewBox="0 0 620 420" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8B948A"/></marker></defs>
+  <g class="diag-node" data-key="hypo">${box(230,10,160,46,'#EAF0E6','#1F4B43')}${label(310,38,'Hypothalamus (GnRH)')}</g>
+  <g class="diag-node" data-key="pit">${box(230,95,160,46,'#EAF0E6','#1F4B43')}${label(310,118,'Anterior pituitary')}${label(310,133,'FSH · LH',10,'#4B564E',600)}</g>
+  <line x1="310" y1="56" x2="310" y2="95" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah2)"/>
+  <g class="diag-node" data-key="${gonadKey}">${box(240,205,140,50,isF?'#F7E9EA':'#EAF0E6', isF?'#A24E53':'#1F4B43')}${label(310,232,gonadLabel)}</g>
+  <line x1="290" y1="141" x2="270" y2="205" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah2)"/>
+  <line x1="330" y1="141" x2="350" y2="205" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah2)"/>
+  <g class="diag-node" data-key="${hormoneKey}">${box(70,285,150,42,'#F6EEDA','#C99A3B')}${label(145,310,hormoneLabel)}</g>
+  <g class="diag-node" data-key="${inhibinKey}">${box(400,285,150,42,'#F6EEDA','#C99A3B')}${label(475,310,'Inhibin B')}</g>
+  <line x1="270" y1="255" x2="160" y2="285" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah2)"/>
+  <line x1="350" y1="255" x2="460" y2="285" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah2)"/>
+  <path d="M145,285 C90,190 150,60 230,33" fill="none" stroke="#A24E53" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ah2)"/>
+  <path d="M190,285 C215,230 218,175 232,112" fill="none" stroke="#A24E53" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ah2)"/>
+  <path d="M475,285 C560,190 460,60 390,118" fill="none" stroke="#A24E53" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ah2)"/>
+  <g class="diag-node" data-key="${effKey}">${box(70,350,150,42,'#FFFFFF','#DCE3D8')}${label(145,371,effLabel,9.5,'#1B211D',600)}</g>
+  <line x1="145" y1="327" x2="145" y2="350" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah2)"/>
+  </svg>`;
+}
+document.getElementById('svgHPG').innerHTML = hpgSVG('female');
+wireDiagram('svgHPG','infoHPG', HPG_INFO, 'Solid arrows = stimulation. Dashed arrows = negative feedback. Click a box, or switch sex above.');
+document.querySelectorAll('.hpg-sex-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.hpg-sex-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('svgHPG').innerHTML = hpgSVG(btn.dataset.sex);
+    wireDiagram('svgHPG','infoHPG', HPG_INFO, 'Solid arrows = stimulation. Dashed arrows = negative feedback. Click a box, or switch sex above.');
+  });
+});
+
+/* ---------- Diagram 3: Gametogenesis ---------- */
+const GAMETE_INFO = {
+  spI:{t:"Primary spermatocyte (46 chromosomes)", b:"The starting germ cell in the testis, still diploid, about to begin meiosis I."},
+  spII:{t:"Secondary spermatocyte (23 chromosomes)", b:"Produced by the first meiotic division (with crossing-over and homologous chromosome pairing)."},
+  spTid:{t:"Spermatids (23 chromosomes)", b:"Produced by the second meiotic division; these mature into sperm cells."},
+  spCell:{t:"Sperm cells", b:"The mature male gametes, each carrying 23 chromosomes, ready for fertilization."},
+  ooI:{t:"Primary oocyte (46 chromosomes)", b:"The starting female germ cell, diploid, arrested until ovulation triggers meiosis I."},
+  ooII:{t:"Secondary oocyte (23 chromosomes)", b:"Produced by an unequal first meiotic division; the bulk of cytoplasm is retained while a first polar body is discarded."},
+  fert:{t:"Fertilization", b:"A sperm cell (23 chromosomes) fuses with the secondary oocyte, triggering completion of the second meiotic division."},
+  zygote:{t:"Zygote (46 chromosomes)", b:"The fertilized egg — a full diploid set restored from 23 maternal + 23 paternal chromosomes."},
+  polar:{t:"Polar bodies (23 chromosomes)", b:"Small, non-functional cells discarded during oogenesis so that nearly all cytoplasm is preserved in the oocyte/zygote; they degenerate."},
+};
+const gameteSVG = `
+<svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ah3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8B948A"/></marker></defs>
+<text x="10" y="24" font-family="Fraunces,serif" font-size="13" font-weight="600" fill="#1F4B43">Spermatogenesis (testis)</text>
+<g class="diag-node" data-key="spI">${box(10,40,140,44,'#EAF0E6','#1F4B43')}${label(80,58,'Primary')}${label(80,73,'spermatocyte (46)',9.5,'#4B564E',500)}</g>
+<g class="diag-node" data-key="spII">${box(190,40,140,44,'#EAF0E6','#1F4B43')}${label(260,58,'Secondary')}${label(260,73,'spermatocyte (23)',9.5,'#4B564E',500)}</g>
+<g class="diag-node" data-key="spTid">${box(370,40,140,44,'#EAF0E6','#1F4B43')}${label(440,58,'Spermatids (23)')}</g>
+<g class="diag-node" data-key="spCell">${box(550,40,150,44,'#F6EEDA','#C99A3B')}${label(625,58,'Sperm cells')}</g>
+<line x1="150" y1="62" x2="190" y2="62" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<line x1="330" y1="62" x2="370" y2="62" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<line x1="510" y1="62" x2="550" y2="62" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<text x="10" y="140" font-family="Fraunces,serif" font-size="13" font-weight="600" fill="#A24E53">Oogenesis (ovary)</text>
+<g class="diag-node" data-key="ooI">${box(10,156,140,44,'#F7E9EA','#A24E53')}${label(80,174,'Primary oocyte')}${label(80,189,'(46 chromosomes)',9.5,'#4B564E',500)}</g>
+<g class="diag-node" data-key="ooII">${box(190,156,140,44,'#F7E9EA','#A24E53')}${label(260,174,'Secondary oocyte')}${label(260,189,'(23 chromosomes)',9.5,'#4B564E',500)}</g>
+<g class="diag-node" data-key="fert">${box(370,156,140,44,'#F6EEDA','#C99A3B')}${label(440,178,'Fertilization')}</g>
+<g class="diag-node" data-key="zygote">${box(550,156,150,44,'#EAF0E6','#1F4B43')}${label(625,174,'Zygote')}${label(625,189,'(46 chromosomes)',9.5,'#4B564E',500)}</g>
+<line x1="150" y1="178" x2="190" y2="178" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<line x1="330" y1="178" x2="370" y2="178" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<line x1="510" y1="178" x2="550" y2="178" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<line x1="625" y1="84" x2="440" y2="156" stroke="#8B948A" stroke-width="1.6" marker-end="url(#ah3)"/>
+<g class="diag-node" data-key="polar">${box(220,236,140,42,'#FFFFFF','#DCE3D8')}${label(290,257,'Polar bodies (23)')}${label(290,271,'— degenerate',9,'#8B948A',500)}</g>
+<line x1="260" y1="200" x2="290" y2="236" stroke="#8B948A" stroke-width="1.4" stroke-dasharray="3 3"/>
+</svg>`;
+document.getElementById('svgGamete').innerHTML = gameteSVG;
+wireDiagram('svgGamete','infoGamete', GAMETE_INFO, 'Click a stage to see what happens at each step of sperm and egg production.');
+
+/* ---------- Diagram 4: Testosterone across the lifespan ---------- */
+const TESTO_INFO = {
+  fetal:{t:"Fetal", b:"A first burst of testosterone secretion occurs in male fetuses before birth, driving genital differentiation."},
+  neo:{t:"Neonatal", b:"A second burst occurs shortly after birth; its function is not fully understood."},
+  pre:{t:"Prepubertal", b:"After the neonatal burst, Leydig cells become quiescent — testosterone stays low throughout childhood."},
+  pub:{t:"Pubertal", b:"Pituitary gonadotropins activate the testes; testosterone rises rapidly during adolescence."},
+  adult:{t:"Adult", b:"Testosterone peaks and plateaus at its highest sustained level of the lifespan."},
+  sen:{t:"Senescence", b:"Gonadal function declines slowly with age — testosterone falls gradually, though viable gametes can still be produced."},
+};
+const stages = [
+  {k:'fetal',x:40,y:150},{k:'neo',x:130,y:190},{k:'pre',x:220,y:290},
+  {k:'pub',x:340,y:120},{k:'adult',x:470,y:35},{k:'sen',x:600,y:110}
+];
+let path = `M${stages[0].x},${stages[0].y}`;
+for(let i=1;i<stages.length;i++) path += ` L${stages[i].x},${stages[i].y}`;
+let stageNodes = stages.map(s=>`<g class="diag-node" data-key="${s.k}"><circle cx="${s.x}" cy="${s.y}" r="7" fill="#C1666B" stroke="#A24E53" stroke-width="1.5"/></g>`).join('');
+const testoSVG = `
+<svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="300" x2="630" y2="300" stroke="#DCE3D8" stroke-width="1.4"/>
+<line x1="30" y1="10" x2="30" y2="300" stroke="#DCE3D8" stroke-width="1.4"/>
+${label(15,155,'Plasma testosterone',10,'#8B948A',600,'middle')}
+<path d="${path}" fill="none" stroke="#1F4B43" stroke-width="2.2"/>
+${stageNodes}
+${label(40,320,'Fetal',10,'#4B564E',600)}
+${label(130,320,'Neonatal',10,'#4B564E',600)}
+${label(220,320,'Prepubertal',10,'#4B564E',600)}
+${label(340,320,'Pubertal',10,'#4B564E',600)}
+${label(470,320,'Adult',10,'#4B564E',600)}
+${label(600,320,'Senescence',10,'#4B564E',600)}
+</svg>`;
+document.getElementById('svgTesto').innerHTML = testoSVG;
+wireDiagram('svgTesto','infoTesto', TESTO_INFO, 'Click a point on the curve to read what is happening to testosterone at that life stage.');
+
+</script>
+</body>
+</html>
