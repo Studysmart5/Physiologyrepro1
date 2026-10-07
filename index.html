@@ -243,6 +243,108 @@ a.ct{display:inline-flex;align-items:center;gap:8px;text-decoration:none}a.ct sv
 @media(max-width:600px){.dgx{padding:20px 12px 14px}.dx-ht h3{font-size:1.1rem}.dx-nd{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.dx-nd,.dx-dt{animation:none!important;transition:none!important}.e{transition:none}}
 </style>
+<style id="acad">
+/* ===== Academic study theme (appearance only) ===== */
+:root{--bg:#ece6d6;--card:#fffdf7;--ink:#1f1c17;--mut:#645d50;--ln:#d8cfba;--p:#1b3a6b;--s:#8c1d2f;--ok:#2e6b3b;--bad:#a3271d;--paper:#fffdf7;--rule:#d98f8f;--serif:Charter,"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font:17.5px/1.7 var(--serif);-webkit-font-smoothing:antialiased}
+header{max-width:960px;margin:0 auto;padding:30px 0 14px;border:0;border-bottom:0;gap:10px 18px}
+h1{font:700 clamp(1.9rem,5.5vw,2.6rem)/1.1 var(--serif);color:var(--ink);letter-spacing:.01em;font-variant:small-caps;text-transform:none}
+header p{font:italic 1rem var(--serif);color:var(--mut);margin-top:4px}
+header>div{padding-bottom:10px;border-bottom:3px double var(--ink);min-width:min(100%,360px);flex:1 1 360px}
+header .ct{border:1px solid var(--ink);border-bottom-width:3px;border-radius:0;background:var(--paper);box-shadow:none;font:600 .95rem var(--serif);padding:7px 14px}
+header .ct b{color:var(--s);font-size:1rem}
+/* tabs like book index tabs */
+nav{max-width:960px;margin:6px auto 0;padding:0;gap:3px;border:0;align-items:flex-end}
+nav button{border:1px solid var(--ln);border-bottom:0;border-radius:3px 3px 0 0;background:#e0d8c3;color:var(--mut);padding:9px 16px 8px;font:600 .9rem var(--serif);letter-spacing:.02em;margin-bottom:0;position:relative;top:1px}
+nav button[aria-selected=true]{background:var(--paper);color:var(--ink);border-color:var(--ln);border-bottom:1px solid var(--paper);padding-top:11px;font-weight:700;box-shadow:inset 0 3px 0 var(--s)}
+/* the sheet */
+main{max-width:960px;margin:0 auto 40px;background:var(--paper);border:1px solid var(--ln);padding:26px 30px 40px 56px;position:relative;box-shadow:0 1px 0 #cfc6af,0 6px 0 -3px #e3dccb}
+main:before{content:"";position:absolute;left:40px;top:0;bottom:0;border-left:1px solid var(--rule)}
+@media(max-width:1000px){header,nav{padding-left:14px;padding-right:14px}main{margin-left:0;margin-right:0}}@media(max-width:640px){main{padding:18px 16px 28px 30px}main:before{left:18px}}
+h2{font:700 1.65rem/1.2 var(--serif);color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:6px;margin:0 0 18px;letter-spacing:.01em}
+h2:before{color:var(--s);margin-right:.5em;font-variant:normal}
+#s0>h2:before{content:"I."}#s1>h2:before{content:"II."}#s2>h2:before{content:"III."}#s3>h2:before{content:"IV."}#s4>h2:before{content:"V."}
+h3{font-family:var(--serif)}
+/* cards become ruled textbook blocks */
+.card{background:transparent;border:0;border-radius:0;box-shadow:none;padding:14px 0 16px;margin:0 0 6px;border-bottom:1px solid var(--ln)}
+.ovw .card{padding:14px 0 16px}
+.ovw h3{font:700 1.08rem var(--serif);font-variant:small-caps;letter-spacing:.05em;color:var(--p);border:0;border-bottom:1px solid var(--ink);padding-bottom:3px;margin:0 0 10px}
+.ovw h4{font:700 .95rem var(--serif);font-style:italic;color:var(--s)}
+.ovw .sub{font:700 .78rem var(--serif);font-variant:small-caps;letter-spacing:.06em;color:var(--mut)}
+.ovw ul{list-style:square}.ovw li::marker{color:var(--s)}
+.grid .card{border:1px solid var(--ln);border-left:4px solid var(--s);background:#fbf6e8;padding:12px 14px;margin:0}
+.grid .card:before{font:700 .72rem var(--serif);font-variant:small-caps;letter-spacing:.08em;color:var(--s)}
+table{font-size:.95rem}
+th{background:transparent;color:var(--ink);font:700 .8rem var(--serif);font-variant:small-caps;letter-spacing:.06em;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink)}
+td,th{border-bottom:1px solid var(--ln);padding:8px 10px 8px 4px}
+tr:nth-child(even) td{background:transparent}
+tbody tr:last-child td{border-bottom:2px solid var(--ink)}
+td:first-child{color:var(--p)}
+.chip,.node,.steps button,.btn,.opt,input[type=search],.note{border-radius:2px}
+.chip{border:1px solid var(--ln);background:var(--paper);font:.85rem var(--serif)}
+.chip.on,.node.on,.steps button.on{background:var(--p);border-color:var(--p);color:#fff}
+.btn{background:var(--p);font:600 .92rem var(--serif);letter-spacing:.02em;padding:9px 18px}
+.btn.g{background:var(--paper);color:var(--ink);border:1px solid var(--ink)}
+.note{background:#fbf6e8;border:0;border-left:4px solid var(--s)}
+/* diagrams: figure plates */
+.legend span{border-radius:2px;box-shadow:none;background:var(--paper);font:600 .78rem var(--serif)}
+.dg,.dgx{border:1px solid var(--ink);border-radius:0;box-shadow:none;background:var(--paper);animation:none;padding:20px 16px 16px;margin-bottom:22px}
+.dg:before,.dgx:before{height:4px;background:var(--p)}
+.dx-no{border-radius:0;background:var(--p);box-shadow:none;font-family:var(--serif)}
+.dx-ht h3{font-family:var(--serif)}
+.dx-p{font-family:var(--serif);font-style:italic}
+.dx-bg{border-radius:0;background:transparent;border:1px solid var(--ink);color:var(--ink);font-family:var(--serif)}
+.dx-s{font-family:var(--serif);font-style:italic;border-inline-start:2px solid var(--s)}
+.dx-bt{border-radius:2px;border:1px solid var(--ink);background:var(--paper);font-family:var(--serif)}
+.dx-st,.cv{border:1px solid var(--ink);border-radius:0;background-color:#fbf8ee;background-image:linear-gradient(#e6dfca 1px,transparent 1px),linear-gradient(90deg,#e6dfca 1px,transparent 1px);background-size:24px 24px}
+.dx-nd{border-radius:2px;box-shadow:none;border:1px solid color-mix(in srgb,var(--c) 55%,#fff);background:color-mix(in srgb,var(--c) 6%,#fffdf7);animation:none;font-family:var(--serif);font-weight:600}
+.dx-nd:hover{transform:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 40%,transparent)}
+.dx-nd.rel{box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 45%,transparent)}
+.dx-nd.on{transform:none;box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--c)}
+.dx-nd.root{background:var(--p);border-radius:2px;box-shadow:none;border-color:var(--p)}
+.dx-nd.root.on{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--p)}
+.dx-nd.ban{border-radius:2px}
+.dx-tag{border-radius:0}
+.dx-bd{box-shadow:none;border-radius:50%}
+.dx-pill{border-radius:2px;box-shadow:none;font-family:var(--serif);background:var(--paper)}
+.dx-tg{box-shadow:none;border-radius:50%}
+.dx-dt,.dt{border-radius:0;box-shadow:none;animation:none;background:#fbf6e8;border:0;border-inline-start:4px solid var(--c,var(--s))}
+.dx-dt h4,.dx-dt p,.dx-dt li{font-family:var(--serif)}
+.dx-ch{border-radius:2px;font-family:var(--serif)}
+.dx-ch:hover{color:#fff}
+.dx-hint,.dx-pa,.dx-dk,.dx-g small,.dx-sub{font-family:var(--serif)}
+.dg .chip{border-radius:2px}
+.dx-nd,.dx-pill,.nb,.lvb,.opt{font-family:var(--serif)}
+/* mini map */
+.mm .nb{border-radius:2px;border:1px solid var(--ln);background:var(--paper);font-family:var(--serif);font-weight:600}
+.mm .l1>.nb{background:var(--p);border-color:var(--p)}
+.mm ul{border-left:1px solid var(--ink)}
+#mr div{padding:7px 0;border-bottom:1px dotted var(--ln)}
+/* flash cards: index cards */
+.fa,.fb{border-radius:2px}
+.fa{background:var(--paper);color:var(--ink);border:1px solid var(--ink);border-top:6px solid var(--s);font:700 1.25rem/1.45 var(--serif);box-shadow:3px 3px 0 #d8cfba}
+.fb{border:1px solid var(--ink);border-top:6px solid var(--p);box-shadow:3px 3px 0 #d8cfba;font-family:var(--serif);background:repeating-linear-gradient(var(--paper),var(--paper) 31px,#cfdbe6 32px)}
+.fb .tg{font-family:var(--serif);font-variant:small-caps;font-size:.8rem;letter-spacing:.08em;color:var(--s)}
+.lvb{border:1px solid var(--ln);border-left:4px solid var(--s);border-radius:2px;background:var(--paper)}
+.lvb b{font-family:var(--serif)}.lvb span{font-family:var(--serif)}
+.lvb.on{background:var(--p);border-color:var(--p);border-left-color:var(--s)}
+/* quiz: exam paper */
+#qz .card{border:1px solid var(--ink);border-top:4px double var(--ink);padding:16px 20px 18px;background:var(--paper)}
+#qz .card small{font:700 .75rem var(--serif);font-variant:small-caps;letter-spacing:.07em;color:var(--mut)}
+#qz .card h3{font:700 1.2rem/1.45 var(--serif);color:var(--ink);margin:8px 0 10px}
+.opt{border:1px solid var(--ln);background:transparent;padding:10px 14px;font-size:1rem}
+.opt:hover{background:#f6f0de}
+.opt:before{font-family:var(--serif);color:var(--s)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--paper))}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--paper))}
+.prog{height:4px;border-radius:0;background:var(--ln)}.prog i{background:var(--s)}
+.qsum{max-width:300px}.qsum th,.qsum td{border:0;border-bottom:1px solid var(--ln)}
+.qsum th{border-top:2px solid var(--ink);border-bottom:1px solid var(--ink)}
+.qsum tr:last-child td{border-bottom:2px solid var(--ink)}
+input[type=search]{border:1px solid var(--ink);background:var(--paper);font-family:var(--serif)}
+@media print{body,html{background:#fff}nav,.bar,.dx-bar{display:none}main{border:0;box-shadow:none}section{display:block!important}}
+</style>
 </head><body>
 <header><div><h1>Study Smart</h1><p>Physiology · revise, test, repeat</p></div><a class="ct" dir="ltr" href="https://t.me/Study_smart5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="#29A9EB" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span>Contact</span> <b dir="ltr">@Study_smart5</b></a></header>
 <nav role="tablist" id="nav"></nav>
