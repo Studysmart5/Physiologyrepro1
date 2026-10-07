@@ -870,7 +870,7 @@ function buildDg(dg,idx){
 
  // layout needs a visible element to measure, so wait until the tab is shown
  const start=()=>{const w=st.clientWidth;if(!w)return;const m=w<600?"n":"w";if(m===mode)return;mode=m;measure();layout();applySel();first=false;z=Math.max(.72,Math.min(1,(st.clientWidth-10)/W));applyZoom()};
- new ResizeObserver(start).observe(st);
+ new ResizeObserver(()=>requestAnimationFrame(start)).observe(st);
  return card;
 }
 DG.forEach((d,i)=>$("#dgs").append(buildDg(d,i)));
